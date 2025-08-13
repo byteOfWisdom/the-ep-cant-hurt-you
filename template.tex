@@ -1,0 +1,32 @@
+\documentclass{scrreprt}
+
+\KOMAoptions{fontsize=11pt, paper=a4} % Schriftgröße und Papierformat setzen.
+\KOMAoptions{DIV=16} % Parameter mit dem man den Seitenrand ändern kann.
+
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+
+% common macros so i don't have to import packages or type too much
+\def\diff#1#2{\frac{\text{d}#1}{\text{d}#2}}
+\def\diffp#1#2{\frac{\partial#1}{\partial#2}}
+\def\imply{\Longrightarrow}
+\def\d#1{\text{d}#1\text{ }}
+\def\equiv{\Longleftrightarrow}
+
+\def\jafp#1#2{
+    \begin{center}
+%    \includegraphics[width=0.8\textwidth]{#1}
+	\includegraphics[height=0.4\textheight]{#1}
+    \captionof{figure}{#2}
+    \label{fig:#1}
+    \end{center}
+}
+
+
+\usepackage{graphicx}
+\graphicspath{{./plots/}}
+\author{Leonie Dessau \& Carla Vermöhlen}
+\setlength\parindent{0pt}
