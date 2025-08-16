@@ -9,7 +9,15 @@
 
 \chapter{Voraufgaben}
 \section*{A}
-here follows task a
+Mit $U(t) = U_0 \sin(\omega t)$ ist trivial $U_{ss} = 2 U_0$ und $U_s = U_0$.
+Weiterhin ist:
+
+\begin{align}
+	U_{eff}^2 &= \langle U_0^2 \sin(\omega t)^2 \rangle = \lim_{x\to\infty} \frac{U_0^2}{T} \int_0^T \d t \sin(\omega t)^2\\
+	&= \lim_{x\to\infty} \frac{U_0^2 T}{2 T} - \frac{\sin(2 \omega T)}{2 T} = \frac{U_0^2}{2}\\
+	\imply U_{eff} &= \frac{U_0}{\sqrt{2}}
+\end{align}
+
 \section*{B}
 here follows task a
 \section*{C}
