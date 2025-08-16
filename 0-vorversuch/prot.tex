@@ -8,20 +8,48 @@
 \disclaimer
 
 \chapter{Voraufgaben}
-\section*{A}
+\section{A}
 Mit $U(t) = U_0 \sin(\omega t)$ ist trivial $U_{ss} = 2 U_0$ und $U_s = U_0$.
 Weiterhin ist:
 
-\begin{align}
+\begin{align*}
 	U_{eff}^2 &= \langle U_0^2 \sin(\omega t)^2 \rangle = \lim_{x\to\infty} \frac{U_0^2}{T} \int_0^T \d t \sin(\omega t)^2\\
 	&= \lim_{x\to\infty} \frac{U_0^2 T}{2 T} - \frac{\sin(2 \omega T)}{2 T} = \frac{U_0^2}{2}\\
 	\imply U_{eff} &= \frac{U_0}{\sqrt{2}}
-\end{align}
+\end{align*}
 
-\section*{B}
-here follows task a
-\section*{C}
-here follows task a
-\section*{D}
-here follows task a
+\section{B}
+Sei ein symmetrisches rechtecksignal gegeben durch $U(t) = U_0 (2 \Theta(\sin(\omega t)) - 1)$, dann ist $U_{eff}$:
+\begin{align*}
+	U_{eff}^2 = \frac{1}{T} \int_0^T \d t U_0^2 (2 \Theta(\sin(\omega t)) - 1)^2
+\end{align*}
+Nun wird $T = \frac{1}{\omega}$ gewählt (also über genau eine Schwingung integriert).
+
+\begin{align*}
+	U_{eff}^2 &=  \frac{1}{\omega}\int_0^{\frac{1}{2\omega}} \d t U_0^2 + \int_{\frac{1}{2\omega}}^{\frac{1}{\omega}} \d t U_0^2 = U_0^2 \\ \imply& U_{eff} = U_0
+\end{align*}
+
+
+\section{C}
+Zunächst ist festzuhalten, dass der Strom entlang aller Bauelemente gleich, also $I_i = I_n$, ist und das Ohmsche Gestz hier als $U = R I$ geschrieben werden kann.
+\begin{align*}
+	&U_n = U_0 \frac{R_n}{R_n + R_i}\\
+	\equiv& U_0 = \frac{R_n + R_i}{R_n} U_n = (R_n + R_i) I_n
+\end{align*}
+Da $U_0$ konstant ist, kann $U_0$ von zwei verschiedenen Messungen gleichgesetzt werden:
+
+\begin{align*}
+	&U_0 = (R_1 + R_i) I_1 = (R_2 + R_i) I_2\\
+	\equiv& R_1 I_1 + R_i I_1 = U_1 + R_i I_1 = R_2 I_2 + R_i I_2 = U_2 + R_i I_2\\
+	\equiv& U_1 - U_2 = R_i I_2 - R_i I_1 = R_i (I_2 - I_1)\\
+	\imply& R_i = \frac{U_1 - U_2}{I_2 - I_1}
+\end{align*}
+
+Es ist für den Funktionsgenerator bekannt, dass für $I_1 = 0$ $U_{1, ss} = 20V$ ist und bei $I_2 = 50\Omega$ $U_{2, ss} = 10$ ist. Setzt man dies in die obige Formel ein, erhält man $R_i = \frac{20V - 10V}{50\Omega} = 0.2\Omega$.
+
+
+\section{D}
+
+
+
 \end{document}
