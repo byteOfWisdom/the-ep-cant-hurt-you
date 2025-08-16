@@ -27,8 +27,14 @@
 
 \newcommand\disclaimer{
 	\chapter*{Vorbemerkungen}
-	Dieses Protokoll wurde gemeinsam erstellt und (außer uns sind Fehler bei der Versionierung unterlaufen) zwei mal gleich abgegeben. Quellcode (auch \LaTeX) verfügbar auf \url{https://github.com/byteOfWisdom/the-ep-cant-hurt-you}. Schaltbilder ohne explizite Quelle sind mit Tix erzeugt, Diagramme ohne explizite Quelle mit Python (oder gnuplot. Oder Julia.).
+	Dieses Protokoll wurde gemeinsam erstellt und (außer uns sind Fehler bei der Versionierung unterlaufen) zwei mal gleich abgegeben. Quellcode (auch \LaTeX) verfügbar auf \url{https://github.com/byteOfWisdom/the-ep-cant-hurt-you}. Schaltbilder ohne explizite Quelle sind mit Tikz erzeugt, Diagramme ohne explizite Quelle mit Python (Oder gnuplot. Oder Julia.).
 }
+
+\addtokomafont{chapterprefix}{\raggedleft}
+\addtokomafont{chapter}{\Large}
+\addtokomafont{section}{\large}
+\addtokomafont{subsection}{\large}
+\addtokomafont{subsubsection}{\large}
 
 \usepackage{graphicx}
 \graphicspath{{./plots/}}
