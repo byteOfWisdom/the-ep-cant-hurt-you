@@ -1,11 +1,27 @@
-\input{../template.tex}
-
-\title{Vorversuch}
+\input{../template}
 
 \begin{document}
+
+\title{Versuch 0: Einführung und Vorversuch}
 \maketitle
 \tableofcontents
 \disclaimer
+
+
+
+\chapter{Einleitung}
+In diesem Einführungsversuch soll die Funktionsweise und der Gebrauch der Messgeräte und insbesondere des Oszilloskops verstanden werden. Hierzu werden verschiedene Signalformen auf dem Oszilloskop untersucht und die Anstiegszeiten der Signale und des Oszilloskops berechnet. Außerdem wird an Hand verschiedener Frequenzmessungen die Dämpfung eines Tiefpassfilters gemessen, um die Grenzfrequenz zu bestimmen.
+
+\chapter{Theorie}
+\textbf{Wecheselspannungsamplituden:} Es gibt verschiedene Bezeichnungen für die Wechselspannungsamplituden mit denen sich auch in Voraufgabe A \& B beschäftigt wurde. \\
+\begin{itemize}
+    \item Spitze-Spitze: $ \text U_{SS}$ gibt die Differenz zwischen der höchsten und der niedrigsten Spannung im Signal an
+    \item Scheitelwert/Spitzenwert: $\text U_S$ gibt den Maximalwert des Signals an
+    \item Effektivwert: $\text U_{eff} = \sqrt{\langle U^2(t)\rangle}$\sgl{} entspricht der konstanten Gleichspannung bei welcher in einem Ohmschen Widerstand die gleiche Leistung abfällt, wie bei der Signalspannung.
+\end{itemize}
+
+\textbf{Oszilloskop:}
+
 
 \chapter{Voraufgaben}
 \section{A}
@@ -19,21 +35,23 @@ Weiterhin ist:
 \end{align*}
 
 \section{B}
-Sei ein symmetrisches rechtecksignal gegeben durch $U(t) = U_0 (2 \Theta(\sin(\omega t)) - 1)$, dann ist $U_{eff}$:
+Sei ein symmetrisches Rechtecksignal gegeben durch $U(t) = U_0 (2 \Theta(\sin(\omega t)) - 1)$, dann ist $U_{eff}$:
 \begin{align*}
-	U_{eff}^2 = \frac{1}{T} \int_0^T \d t U_0^2 (2 \Theta(\sin(\omega t)) - 1)^2
+	U_{eff}^2 = \langle U(t)^2 \rangle = \frac{1}{T} \int_0^T \d t U_0^2 (2 \Theta(\sin(\omega t)) - 1)^2
 \end{align*}
 Nun wird $T = \frac{1}{\omega}$ gewählt (also über genau eine Schwingung integriert).
 
 \begin{align*}
-	U_{eff}^2 &=  \frac{1}{\omega}\int_0^{\frac{1}{2\omega}} \d t U_0^2 + \int_{\frac{1}{2\omega}}^{\frac{1}{\omega}} \d t U_0^2 = U_0^2 \\ \imply& U_{eff} = U_0
+	U_{eff}^2 &= \frac{1}{\omega}\int_0^{\frac{1}{2\omega}} \d t U_0^2 + \int_{\frac{1}{2\omega}}^{\frac{1}{\omega}} \d t U_0^2 = U_0^2 \\ \imply& U_{eff} = U_0
 \end{align*}
+
+Mit $U_s = U_0 = 10V$ ist dann $U_{eff} = 10V$.
 
 
 \section{C}
 Zunächst ist festzuhalten, dass der Strom entlang aller Bauelemente gleich, also $I_i = I_n$, ist und das Ohmsche Gestz hier als $U = R I$ geschrieben werden kann.
 \begin{align*}
-	&U_n = U_0 \frac{R_n}{R_n + R_i}\\
+	&U_n = U_0 \frac{R_n}{R_n + R_i} \sgl{0.1}\\
 	\equiv& U_0 = \frac{R_n + R_i}{R_n} U_n = (R_n + R_i) I_n
 \end{align*}
 Da $U_0$ konstant ist, kann $U_0$ von zwei verschiedenen Messungen gleichgesetzt werden:
@@ -42,14 +60,32 @@ Da $U_0$ konstant ist, kann $U_0$ von zwei verschiedenen Messungen gleichgesetzt
 	&U_0 = (R_1 + R_i) I_1 = (R_2 + R_i) I_2\\
 	\equiv& R_1 I_1 + R_i I_1 = U_1 + R_i I_1 = R_2 I_2 + R_i I_2 = U_2 + R_i I_2\\
 	\equiv& U_1 - U_2 = R_i I_2 - R_i I_1 = R_i (I_2 - I_1)\\
-	\imply& R_i = \frac{U_1 - U_2}{I_2 - I_1}
+	\imply& R_i = \frac{U_1 - U_2}{I_2 - I_1} \sgl{0.2}
 \end{align*}
 
 Es ist für den Funktionsgenerator bekannt, dass für $I_1 = 0$ $U_{1, ss} = 20V$ ist und bei $I_2 = 50\Omega$ $U_{2, ss} = 10$ ist. Setzt man dies in die obige Formel ein, erhält man $R_i = \frac{20V - 10V}{50\Omega} = 0.2\Omega$.
 
 
 \section{D}
+Zu dieser Aufgabe sollte nichts notiert werden. Hier wurde lediglich der Aufbau des Oszilloskops mit den Angaben aus dem Skript nachvollzogen.
 
+\section{E}
+Es gelten folgende Beziehungen: \\ \\
+\begin{align*}
+ \text B = \frac{1}{2\pi RC} = \frac{1}{2\pi \tau}; \text{ } \Delta t = t_2 - t_1; \text{ } \text U(t) = \text U_{max} (1 - e ^{- \frac{t}{\tau}}) \\
+\text{Außerdem ist bekannt, dass } \text U(t_1) = 0.1 \text U_{max} \text{ und } \text U(t_2) = 0.9 \text U_{max}\\ \\
+\imply 0.1 = 1 - e ^{\frac{t_1}{\tau}} \text{ und } 0.9 = 1 - e ^{\frac{t_2}{\tau}} \\ \\
+\text{Also } t_1 = - \text {ln}(0.9)\tau \text{ und } t_2 = - \text {ln}(0.1)\tau \\ \\
+ \equiv \Delta t = - \text{ln}(0.1) \tau + \text{ln} (0.9) \tau  \\ \\
+ \equiv \frac{1}{\tau} \Delta t = \text{ln} (\frac{0.9}{0.1}) \\ \\
+ \equiv 2\pi \Delta t \text{ B}  = \text{ln} (\frac{0.9}{0.1}) \\ \\
+ \equiv \Delta t \text{ B} = \frac{\text{ln} (\frac{0.9}{0.1})}{2\pi} \approx 0.35
+\end{align*}
 
+\chapter{Versuchsdurchführung}
+
+\chapter{Auswertung}
+
+\chapter{Fazit}
 
 \end{document}

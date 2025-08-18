@@ -1,24 +1,164 @@
 \input{../template.tex}
 
-\title{Ausbreitung von Signalen auf Leitern}
+\title{Versuch 1: Ausbreitung von Signalen auf Leitern}
 
 \begin{document}
 \maketitle
 \tableofcontents
 \disclaimer
 
+\chapter{Einleitung}
+
+\chapter{Theorie}
+\textbf{Leitungseigenschaften:} Koaxialkabel, wie in diesem Versuch, bestehen aus einem Innen- und einem Außenleiter (z.B. Volldraht und Kupfer), die durch ein Dielektrikum voneinander abgeschirmt sind. Sie besitzen also eine Induktivität und eine Kapazität, für die gilt
+\begin{align}
+    C = \epsilon_r \epsilon_0 l \frac{2\pi}{\ln{\frac{R_a}{R_i}}} \\
+    L = \mu_r \mu_0 l \frac{\ln{\frac{R_a}{R_i}}}{2\pi}
+\end{align}
+
+Wobei l die Länge des Leiters, $\text R_a$ der Radius des Außenmantels, $\text R_i$ der Radius des inneren Leiters sind. $ \epsilon_r \text{ und } \mu_r$ die elektrischen und magnetischen Permeabilitäten sind Materialkonstanten.
+$\epsilon_0 \text{, } \text{, } \mu_0 $ sind die Vakuumpermeabilitäten. \\
+Es gibt außerdem noch zwei weitere Kenngrößen für eine den Widerstand R und den Verlustwert G.
+Die Größen sind proportional zur Länge des Leiters $l$ und werden deshalb pro Längeneinheit angegeben, also als $ \text {R'} = \frac {\text R}{l} \text{; } \text {C'} = \frac {\text C}{l} \text{; } \text {L'} = \frac {\text L}{l} \text{ und }\text {G'} = \frac {\text G}{l}$.
+Diese vier Leitungskonstanten führen zu weiteren Leitungsgrößen: dem Wellenwiderstand, der Verzögerungszeit und der Dämpfung. \\ \\
+
+\textbf{Wellenausbreitung auf homogenen Leitern:} Um die Vorgänge in den verwendeten Koaxialkabeln zu beschreiben, wird das Kabel als verlustlose Leitung betrachtet, welche aus aneinandergereihten LC-Gliedern besteht, betrachtet. Zur Beschreibung von Strom und Spannung nutzt man die Impedanz und Admittanz aus folgendem Ersatzschaltbild: \\
+
+\jafp{Ersatzschaltbild01.png}{Schaltbild aus dem Skript}
+
+Die Längsimpedanz ist folglich eine Serienschaltung aus Spule und Verlustwiderstand und die Queradmittanz eine Reihenschaltung aus Kondensator und Verlustleitwert.
+
+\begin{align}
+    Z = i\omega L + R \\
+    Y = i\omega C + G
+\end{align}
+
+Auch diese Größen sind Proportional zur Länge und werden dementsprechend pro Längeneinheit angegeben.
+
+\begin{align}
+    Z'= \frac{Z}{l} = \frac{\Delta Z}{\Delta l} \\
+    Y'= \frac{Y}{l} = \frac{\Delta Y}{\Delta l}
+\end{align}
+
+Des Weiteren ist über Strom und Spannung aus dem Ersatzschaltbild bekannt
+
+\begin{align}
+    U(x) &= I(x) \cdot \Delta Z + U(x+\Delta x) \\
+    I(x) &= I(x+\Delta x) + U(x + \Delta x) \cdot \Delta Y
+\end{align}
+
+Man erhält folgendes Differentialgleichungssystem, wenn man $\Delta U \text{ und } \Delta I$ durch $\Delta x$ teilt und dann $\Delta x \rightarrow 0$ laufen lässt.
+
+\begin{align}
+    \frac{dU}{dx} = -I \cdot Z' \\
+    \frac{dI}{dx} = -U \cdot Y'
+\end{align}
+
+Durch weiteres Ableiten erhält man die Lösung des DGL Systems. Die Spannung wird durch die Superrposition einer hin- und rücklaufenden Spannungsamplitude und der Strom durch die Differenz dieser bestimmt.
+
+\begin{align}
+    U(x,t) = U_h(x,t) + U_r(x,t) = (U_{h0} e^{- \Upsilon x} + U_{r0} e^{\Upsilon x}) e^{i\omega t} \\
+    I(x,t) = (U_{h0} e^{- \Upsilon x} - U_{r0} e^{\Upsilon x}) \cdot \sqrt{\frac{G'+i\omega C'}{R'+i\omega L'}} e^{i\omega t} = I_h(x,t) + I_r(x,t)
+\end{align}
+
+Wobei für die Dämpfung $\Upsilon $ gilt:
+\begin{align}
+    \Upsilon ^2 = Z' \cdot Y' = (R' + i\omega L') \cdot (G' + i\omega C') = \alpha + i\beta
+\end{align}
+mit $\alpha = \Re  (\Upsilon)$ der Dämpfungskonstante. Im verlustfreien Fall ($R'= G'=  0 $) wird $\Upsilon = i\omega \sqrt{L'C'} = i\beta$. \\
+
+\textbf{Wellenwiderstand und Phasengeschwindigkeit:} Die Wellenlänge, die Phasengeschwindigkeit und die Gruppengeschwindigkeit lauten:
+
+\begin{align}
+    \lambda &= \frac{2\pi}{\beta} = \frac{2\pi}{\omega \sqrt{L'C'}} \\
+    v_{ph} &= \nu \cdot \lambda = \frac{\omega}{\beta} = \frac{1}{\sqrt{L'C'}} = c_0 \cdot \frac{1}{\sqrt{\epsilon _r \mu _r}}\\
+    v_{gr} &= \frac{d\omega}{d\beta} = \frac{1}{d\beta / d\omega} = \frac{1}{\sqrt{L'C'}} = v_{ph}
+\end{align}
+
+Der Wellenwiderstand ist folgendermaßen definiert
+
+\begin{align}
+    Z = \frac{U_h(x)}{I_h(x)} = \frac{U_{h0}}{I_{h0}} = \sqrt{\frac{R'+i\omega L'}{G'+i\omega C'}} = \sqrt{\frac{L'}{C'} \cdot \sqrt{\frac{1-i\frac{R'}{\omega L'}}{1- i\frac{G'}{\omega C'}}}} = \frac{U_r(x)}{-I_r(x)}
+\end{align}
+
+Für den verlustfreien Fall wird
+\begin{align}
+    Z = \sqrt{\frac{\mu_r \mu_0}{\epsilon_r \epsilon_0}} \frac{\ln(R_a / R_i)}{2 \pi} = \sqrt{\frac{L'}{C'}} &= Z_{frei} \frac{\ln(R_a / R_i)}{2 \pi}
+\end{align}
+
+Die Verzögerungszeit des Kabels ist antiproportional zur Phasengeschwindigkeit $v_{ph}$. In Aufgabe A und B werden ihre Eigenschaften näher behandelt. \\
+
+\textbf{Leitungsabschluss und Anpassung:} Im Kabel gibt es wie oben beschrieben sowohl eine einlaufende als auch eine rücklaufende Welle. Das liegt daran, dass die Energie der einlaufenden Welle nicht komplett im Abschlusswiderstand $ R_A $ verbraucht wird. Wenn der Abschlusswiderstand genau gleich dem Wellenwiderstand ist, gibt es demnach keine rücklaufende Welle.\\
+Der Abschlusswiderstand ergibt sich aus dem Ohm'schen Gesetz zu
+
+\begin{align}
+    R_A = \frac{U_h(l)+U_r(l)}{I_h(l)+I_r(l)} = Z \cdot \frac{U_{hl}+U_{rl}}{U_{hl}-U_{rl}} = Z \cdot \frac{1+r}{1-r}
+\end{align}
+
+Hierbei ist $r$ der Reflexionsfaktor
+
+\begin{align}
+    r = \frac{U_{rl}}{U_{hl}} = \frac{1-\frac{Z}{R_A}}{1+\frac{Z}{R_A}} = \frac{R_A-Z}{R_A+Z}
+\end{align}
+
+Außerdem relevante Größen sind das Stehwellenverhältnis $s$ und der Anpassungsfaktor $m$
+
+\begin{align}
+    s = \frac{1+|r|}{1-|r|} \\
+    m = \frac 1s
+\end{align}
+
+Es ergeben sich drei verschiedene Fälle für die Auswirkung des Abschlusswiderstandes auf die Signale: \\
+
+\textbf{Angepasster Abschluss:} $R_A = Z \text{; } r = 0 \text{; } s = 1 \text{ und } m= 1 $ \\
+In diesem Fall gibt es keine Reflexion, also auch keine rücklaufende Welle. Die gesamte einlaufende Energie wird an den Verbraucher abgegeben.\\
+
+\textbf{Offene Leitung:} $ R_A = \infty \text{; } r = +1 \text{; } s = \infty \text{ und } m = 0 $ \\
+Der Strom am Ende des Leiters ist $ I_{rl} + I_{hl = 0}$, da nach außen kein Strom fließt. Es gilt also $ I_{rl} = -I_{hl}$ und damit $U_{hl} = U_{rl}$. Die hinlaufende Welle ist genauso groß, wie die rücklaufende Welle. Außerdem ist die hinlaufende Welle so groß, wie die hinlaufende Welle im Fall des angepassten Anschlusses.\\
+
+\textbf{Kurzschluss:} $ R_A = 0 \text{; } r = -1 \text{; } s = \infty \text{ und } m = 0 $ \\
+Am Ende des Leiters wird die Spannung 0, da hier kurzgeschlossen ist. $ U_{rl} + U_{hl} = 0 $ also $ U_{hl} = - U_{rl}$. Die rücklaufende Welle ist also genau entgegengesetzt gleich groß, wie die hinlaufende Welle. Der Strom ist doppelt so groß, wie bei angepasstem Anschluss. $I_{hl} + I_{rl} = 2 I_{hl}$
+
 \chapter{Voraufgaben}
+
 \section{A}
-voraufgabe i guess
+Größere Verzögerungszeiten lassen sich erreichen indem man ein längeres Kabel verwendet oder, indem man die Phasengeschwindigkeit reduziert. Betrachtet man
+\begin{align}
+    v_{ph} = \frac{1}{\sqrt{L' C'}} = c_0 \frac{1}{\sqrt{\epsilon_r \mu_r}}\label{vph}
+\end{align}\sgl{vph}{1.13}
+so kann man diese reduzieren indem $L' C'$ vergrößert wird. Dies lässt sich erreichen indem entweder die Kapazität erhöht oder die Induktivität. Dies lässt sich erreichen, indem man Materialien mit größeren elektrischen- oder magnetischen Permeabilitäten nutzt.
 
 \section{B}
-voraufgabe i guess
+Der Wellenwiderstand ist gegeben als
+\begin{align}
+    Z = \sqrt{\frac{\mu_r \mu_0}{\epsilon_r \epsilon_0}} \frac{\ln(R_a / R_i)}{2 \pi} = \sqrt{\frac{L'}{C'}} &= Z_{frei} \frac{\ln(R_a / R_i)}{2 \pi}\\
+    &= Z_{frei}^{vak} \sqrt{\frac{\mu_r}{\epsilon_r}}\frac{\ln(R_a / R_i)}{2 \pi} \label{wellenwiderstand}
+\end{align}
+\sgl{wellenwiderstand}{1.15}
+
+Erhöht man die Verzögerungszeit durch ein Material mit größerem $\epsilon_r$, so wird $Z$ kleiner, Erhöht man die Induktivität (sei es durch Ferritkern, Windungen oder Materialwahl), so wird der Wellenwiderstand $Z$ größer.
 
 \section{C}
-voraufgabe i guess
+In diesem Fall ($R_A = Z$), ist $R_{in} = Z = R_A$ unabhängig von der Länge des Kabels.
 
 \section{D}
-voraufgabe i guess
+Gegeben sind die Werte:
+\begin{align}
+    &R_A / R_I = 2.3\\
+    &\epsilon_r = 1.5\\
+    &\mu_r = 1.5\\
+    &Z_{frei}^{vak} \approx 377\Omega\label{zfrei}
+\end{align}
+\sgl{zfrei}{1.16}
+Im Verlustfreien Idealfall ist der Wellenwiderstand durch (\ref{wellenwiderstand}) gegeben. Hier ist dann $Z \approx 50\Omega$.
+Die Phasengeschwindigkeit ist gegeben durch (\ref{vph}), wobei hier $c_0 = 3 \cdot 10^8 m s^{-1}$ genommen wird, und wird dann zu $v_{ph} = 2 \cdot 10^8 m s^{-1}$.
 
+Die Verzögerung pro Meter ist dann einfach die reziproke Geschwindigkeit, also $\tau = v_{ph}^{-1} = \frac12 10^{-8} s m^{-1}$.
+
+\chapter{Versuchsdurchführung}
+
+\chapter{Auswertung}
+
+\chapter{Fazit}
 
 \end{document}

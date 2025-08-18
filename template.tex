@@ -25,9 +25,13 @@
     \end{center}
 }
 
+\def\sgl#1{\footnote{Gleichung #1 aus dem EP Skript}}
+
+\def\sabb#1{\footnote{Abbildung #1 aus dem EP Skript}}
+
 \newcommand\disclaimer{
 	\chapter*{Vorbemerkungen}
-	Dieses Protokoll wurde gemeinsam von erstellt und (außer uns sind Fehler bei der Versionierung unterlaufen) zwei mal gleich abgegeben. Quellcode (auch \LaTeX) verfügbar auf \url{https://github.com/byteOfWisdom/the-ep-cant-hurt-you}. Schaltbilder ohne explizite Quelle sind mit Tikz erzeugt, Diagramme ohne explizite Quelle mit Python (Oder gnuplot. Oder Julia.).
+	Dieses Protokoll wurde gemeinsam von Carla Vermöhlen und Leonie Dessau erstellt und (außer uns sind Fehler bei der Versionierung unterlaufen) zwei mal gleich abgegeben. Quellcode (auch \LaTeX) verfügbar auf \url{https://github.com/byteOfWisdom/the-ep-cant-hurt-you}. Schaltbilder ohne explizite Quelle sind mit Tikz erzeugt, Diagramme ohne explizite Quelle mit Python (Oder gnuplot. Oder Julia.).
 }
 
 \addtokomafont{chapterprefix}{\raggedleft}
@@ -35,6 +39,14 @@
 \addtokomafont{section}{\large}
 \addtokomafont{subsection}{\large}
 \addtokomafont{subsubsection}{\large}
+
+
+\makeatletter
+\renewcommand\chapter{\thispagestyle{plain}%
+\global\@topnum\z@
+\@afterindentfalse
+\secdef\@chapter\@schapter}
+\makeatother
 
 \usepackage{graphicx}
 \graphicspath{{./plots/}}
