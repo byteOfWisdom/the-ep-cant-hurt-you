@@ -1,0 +1,31 @@
+ALL0003 -> aufgabe 1, ohne 2.2kOhm, grob
+ALL0004 -> aufgabe 1, ohne 2.2kOhm, fein
+
+ALL0005 -> aufgabe 1, mit 2.2kOhm, sehr hübsch
+ALL0006 -> aufgabe 1, mit 2.2kOhm, fein
+
+ALL0007 -> aufgabe 2, reflektionen im langen kabel, grob FALSCHE FREQUENZ!!
+ALL0008 -> aufgabe 2, korrekte einstellungen (wie in skript)
+
+ALL0009 -> aufgabe 3 a/b, fein
+ALL0010 -> aufgabe 3 a/b, grob
+ALL0011 -> aufgabe 3 c, fein (bei 150kHz)
+ALL0012 -> aufgabe 3 d, grob (bei 570kHz)
+ALL0013 -> aufgabe 3 d, fein (bei 570kHz)
+ALL0014 -> aufgabe 3 d, fein, abgeschlossen mit 50 Ohm (bei 570kHz)
+
+ALL0015 -> aufgabe 4 a, 10kHz, offenes ende
+ALL0016 -> aufgabe 4 b, 10kHz, kurzgeschlossenes ende, grob
+ALL0017 -> aufgabe 4 b, 10kHz, kurzgeschlossenes ende, fein
+ALL0018 -> aufgabe 4 c, 50kHz, kurzgeschlossenes ende, grob
+ALL0019 -> aufgabe 4 c, 50kHz, kurzgeschlossenes ende, fein
+
+ALL0020 -> aufgabe 4 d, 10kHz, offenes ende, grob
+ALL0021 -> aufgabe 4 d, 10kHz, offenes ende, fein
+
+ALL0022 -> aufgabe 4 d, 10kHz, kurzgeschlossenes ende, semi fein
+ALL0023 -> aufgabe 4 d, 10kHz, kurzgeschlossenes ende, grob
+ALL0024 -> aufgabe 4 d, 10kHz, kurzgeschlossenes ende, fein
+
+ALL0025 -> aufgabe 4 d, 80kHz, kurzgeschlossenes ende, grob
+ALL0026 -> aufgabe 4 d, 80kHz, kurzgeschlossenes ende, fein

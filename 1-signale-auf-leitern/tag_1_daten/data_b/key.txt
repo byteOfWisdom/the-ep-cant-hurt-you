@@ -1,0 +1,7 @@
+0001 -> anstiegszeit overview
+0002 -> anstiegszeit, gezoomed
+ALL0002 -> anstiegszeit gezoomed
+
+aufgabe c)
+RC glied: 10nF, 1kOhm
+amplitude am signalgenerator: 20V
