@@ -1,0 +1,6 @@
+DS0000.BMP -> a, rechteckwelle
+DS0001.BMP -> a, rechteckwelle, chonky
+DS0002.BMP -> a, rechteckwelle, slim
+DS0003.BMP -> a, dreieckwelle
+DS0004.BMP -> a, dreieckwelle, slim
+DS0005.BMP -> a, sinuswelle
