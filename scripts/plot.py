@@ -3,16 +3,16 @@ from matplotlib import pyplot as plt
 from sys import argv
 from labtools import perror
 
+def crazy_log10(x):
+    #log a (x) = log b (x) / log b (a)
+    # -> log 10 (x) = ln(x) / ln(10)
+    return np.log(x) / np.log(10.0)
 
 data = np.transpose(np.loadtxt(argv[1], skiprows = 1, delimiter = ","))
 freqs = perror.ev(data[0], 0)
 amps = perror.ev(data[1], 0.3)
 u0 = 20
 
-def crazy_log10(x):
-    #log a (x) = log b (x) / log b (a)
-    # -> log 10 (x) = ln(x) / ln(10)
-    return np.log(x) / np.log(10.0)
 
 dB = 20 * crazy_log10(amps / u0)
 

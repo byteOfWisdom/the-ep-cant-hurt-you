@@ -34,9 +34,11 @@ def plot_single(fname, fout):
     plt.xlabel(unit)
     plt.ylabel("V")
     plt.xlim([scaled_time[0], scaled_time[-1]])
-    plt.grid()
-    #plt.show()
-    plt.savefig(fout)
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    plt.show()
+    #plt.savefig(fout)
 
 def plot_dual(fname1, fname2, fout):
     data1, vstep1, tstep1 = load_csv(fname1)
@@ -47,14 +49,15 @@ def plot_dual(fname1, fname2, fout):
     amplitude1 = data1 * vstep1 * cal_factor
     amplitude2 = data2 * vstep2 * cal_factor
     scaled_time = time * unit_value
-    plt.plot(scaled_time, amplitude1)
-    plt.plot(scaled_time, amplitude2)
+    plt.plot(scaled_time, amplitude1, label="CH1")
+    plt.plot(scaled_time, amplitude2, label="CH2")
     plt.xlabel(unit)
     plt.ylabel("V")
     plt.xlim([scaled_time[0], scaled_time[-1]])
     plt.grid()
-    #plt.show()
-    plt.savefig(fout)
+    plt.legend()
+    plt.show()
+    #plt.savefig(fout)
 
 
 if __name__ == "__main__":
