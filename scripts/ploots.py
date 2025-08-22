@@ -73,6 +73,37 @@ def zero_line():
     plt.gca().minorticks_on()
     show_or_save()
 
+def diode_line(u):
+    a = 1.5
+    return 0.001 * (np.exp(a * u) - 1) if u >= 0 else - 0.0001 * (np.exp(a * (np.abs(u) + 3.5)) - 1)
+
+
+def kennlinie(f):
+    u = np.linspace(-10, 10, 10000)
+    i = list(map(lambda x: f(x) * 1000, u))
+    #plt.plot(u[i**2 <= 1e4], i[i**2 <= 1e4])
+    plt.plot([], [])
+    plt.ylabel(r"$I [mA]$")
+    plt.xlabel(r"$U [V]$")
+    plt.xlim([-10, 10])
+    plt.ylim([-10, 10])
+    #plt.vlines(0, -1, 1, color="grey")
+    #plt.hlines(0, -10, 10, color="grey")
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    plt.gca().tick_params(labelbottom=False)
+    plt.gca().tick_params(labelleft=False)
+    plt.gca().set_aspect("equal")
+    show_or_save()
+
+
+def kennlinie_a():
+    kennlinie(lambda x: x / 100)
+
+def kennlinie_b():
+    kennlinie(diode_line)
+
 
 if __name__ == "__main__":
     if argv[1] == "a" or argv[1] == "b":
@@ -83,3 +114,7 @@ if __name__ == "__main__":
         r_min_max()
     elif argv[1] == "e":
         zero_line()
+    elif argv[1] == "f":
+        kennlinie_a()
+    elif argv[1] == "g":
+        kennlinie_b()

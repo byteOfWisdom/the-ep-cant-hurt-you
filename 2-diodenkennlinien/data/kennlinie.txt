@@ -1,0 +1,4 @@
+fehler:
+1 skt
+0.01V (DMM)
+0.1 mA (DMM)

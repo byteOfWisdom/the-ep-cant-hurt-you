@@ -1,0 +1,4 @@
+Fehler:
+V_rms: 0.1V
+I: 0.01mA
+Widerstand: 150 Ohm

@@ -1,0 +1,32 @@
+ALL0000 -> Kennlinie D1, 1V/div, 20Vpp
+ALL0001 -> Kennlinie D1, 200mV/div, 20Vpp
+ALL0002 -> Kennlinie D2, 500mV/div, 14.8Vpp
+ALL0003 -> Kennlinie D2, 1V/div, 14.8Vpp
+ALL0004 -> Kennlinie Zener, 1V/div, 20.0Vpp, DETAIL x-offset 3.72 V
+ALL0005 -> Kennlinie Zener, 1V/div, 20.0Vpp, DETAIL x-offset 3.72 V
+ALL0006 -> einweg GR, 8kOhm, kein kondensator
+ALL0007 -> einweg GR, 8kOhm, 2.2uF kondensator
+ALL0008 -> einweg GR, 8kOhm, 22uF kondensator, zoom
+ALL0009 -> einweg GR, 8kOhm, 22uF kondensator, zoom
+ALL0010 -> einweg GR, 8kOhm, 1000uF kondensator, zoom
+
+ALL0011 -> zweiweg GR, 8kOhm, kein kondensator
+ALL0012 -> zweiweg GR, 8kOhm, 2.2uF kondensator
+ALL0013 -> zweiweg GR, 8kOhm, 2.2uF kondensator, zoom
+ALL0014 -> zweiweg GR, 8kOhm, 22uF kondensator
+ALL0015 -> zweiweg GR, 8kOhm, 22uF kondensator, zoom
+ALL0016 -> zweiweg GR, 8kOhm, 1000uF kondensator, zoom
+
+Arbeitswiderstand R = 150 Ohm
+
+ALL0017 -> zenerstabilisert bei 18.02mA Strom
+ALL0018 -> einwege, keine zener, 22uF, unbelastet
+ALL0019 -> einwege, keine zener, 22uF, mittel belastet
+ALL0020 -> einwege, keine zener, 22uF, ziemlich belastet
+ALL0021 -> einwege, keine zener, 22uF, voll belastet
+
+ALL0022 -> einwege, mit zener, 22uF, nicht belastet
+ALL0023 -> einwege, mit zener, 22uF, mittel belastet
+ALL0024 -> einwege, mit zener, 22uF, ziemlich belastet
+ALL0025 -> einwege, mit zener, 22uF, ziemlich (mehr als 24) belastet
+ALL0026 -> einwege, mit zener, 22uF, voll belastet
