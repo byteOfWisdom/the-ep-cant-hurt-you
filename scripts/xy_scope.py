@@ -29,7 +29,8 @@ def plot_xy(x_file, y_file, y_scale):
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
-    plt.show()
+    #plt.show()
+    plt.savefig(argv[1] + ".pdf")
 
 
 if __name__ == "__main__":
