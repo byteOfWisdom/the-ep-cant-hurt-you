@@ -15,6 +15,7 @@ def gleichrichter():
     y1 = np.sin(x)
     y1[y1 < 0] = 0
     y2 = np.abs(np.sin(x))
+    var = "a"
 
     if var == "a":
         plt.plot(x, y1, label= "Einwege-Wechselrichter")

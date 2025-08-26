@@ -13,8 +13,9 @@ def load_csv(fname):
         metadata = {}
         metadata["vdiff"] = float(raw[5].split(",")[1])
         metadata["tdiff"] = float(raw[11].split(",")[1])
+        metadata["v_offset"] = float(raw[6].split(",")[1])
 
-        return data, metadata["vdiff"], metadata["tdiff"]
+        return data, metadata["vdiff"], metadata["tdiff"], metadata["v_offset"]
 
 
 def find_unit(interval):
@@ -24,7 +25,7 @@ def find_unit(interval):
 
 
 def plot_single(fname, fout):
-    data, vstep, tstep = load_csv(fname)
+    data, vstep, tstep, offset = load_csv(fname)
     cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
     time = np.arange(0, len(data)) * tstep
     unit, unit_value = find_unit(tstep)
@@ -34,6 +35,9 @@ def plot_single(fname, fout):
     plt.xlabel(unit)
     plt.ylabel("V")
     plt.xlim([scaled_time[0], scaled_time[-1]])
+    #offset = - sum(amplitude) / len(amplitude)
+    #print(f"average voltage = {sum(amplitude) / len(amplitude)}V")
+    plt.ylim([-4 * vstep - offset, 4 * vstep - offset])
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
@@ -41,8 +45,8 @@ def plot_single(fname, fout):
     #plt.savefig(fout)
 
 def plot_dual(fname1, fname2, fout):
-    data1, vstep1, tstep1 = load_csv(fname1)
-    data2, vstep2, tstep2 = load_csv(fname2)
+    data1, vstep1, tstep1, _ = load_csv(fname1)
+    data2, vstep2, tstep2, _ = load_csv(fname2)
     cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
     time = np.arange(0, len(data1)) * tstep1
     unit, unit_value = find_unit(tstep1)
