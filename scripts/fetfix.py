@@ -2,6 +2,7 @@
 import numpy as np
 from sys import argv
 from matplotlib import pyplot as plt
+from scipy.optimize import curve_fit
 
 
 def load_csv(fname):
@@ -48,12 +49,29 @@ def plot_xy(xdata, ydata, y_scale):
 #    cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
 #    x_amp = x * x_vstep * cal_factor
 #    y_amp = y * y_vstep * cal_factor * y_scale
-    default = False
-    if default:
-        plt.scatter(xdata, np.array(ydata) * y_scale, marker=".", s =0.5)
-    else:
-        for x_chunk, y_chunk in chop_with_adjacency(xdata, ydata):
-            plt.plot(x_chunk, np.array(y_chunk) * y_scale, color="tab:blue")
+    chunks = chop_with_adjacency(xdata, ydata)
+    usefull_chunks = []
+    for x_chunk, y_chunk in chunks:
+        if len(x_chunk) < 2 * len(chunks[0][0]):
+            continue
+        usefull_chunks.append((x_chunk, y_chunk))
+
+    U_ds_step = 0.491 * 6.
+    parab = lambda x, a, b: b * ((x - a) ** 2)
+    xacc, yacc = [], []
+    n = 0
+    for x_chunk, y_chunk in usefull_chunks[:12] + usefull_chunks[13:]:
+        n += 1
+        U_ds = y_chunk - 100 * np.array(x_chunk) * y_scale * 1e-3
+        U_gs = x_chunk - 100 * np.array(y_chunk) * y_scale * 1e-3
+        I_d = np.array(x_chunk) * y_scale
+        res, cov = curve_fit(parab, U_gs, np.array(y_chunk) * y_scale, maxfev=10000)
+        k = res[1]
+        U_thr = res[0]
+        print(U_thr)
+
+        plt.plot(U_ds, I_d, color="tab:blue")
+    #plt.scatter(xacc, yacc)
     plt.xlabel("Spannung [V]")
     plt.ylabel("Strom [mA]")
     plt.grid(which="major")

@@ -59,6 +59,12 @@ def plot_xy(xdata, ydata, y_scale):
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
+
+    levels = [0.4, 1.4, 2.4, 3.4, 4.5, 5.6, 6.7, 7.6, 8.8, 9.9, 10.9, 11.9, 12.9, 13.9, 14.8]
+    for kl in levels:
+        plt.plot([1.5, 15], [kl, kl], "tab:blue")
+#    plt.plot(np.linspace(0, 9.3, 1000), (lambda x: 1000 * (9.3 - x) / (500))(np.linspace(0, 9.3, 1000)))
+    plt.plot(np.linspace(0, 15.0, 1000), (lambda x: 1000 * (15.0 - x) / (780))(np.linspace(0, 15.0, 1000)))
     plt.show()
     #plt.savefig(argv[1] + ".pdf")
 
