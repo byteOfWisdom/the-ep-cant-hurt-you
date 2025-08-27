@@ -8,11 +8,17 @@ def load_csv(fname):
     with open(fname, "r") as file:
         raw = file.readlines()
         parse_line = lambda l: float(l.strip().strip(","))
-        data = np.array(list(map(parse_line, raw[16:])))
+        if raw[11].split(",")[0] == "Waveform Last Dot Address":
+            data = np.array(list(map(parse_line, raw[17:17 + int(raw[11].split(",")[1])])))
+        else:
+            data = np.array(list(map(parse_line, raw[16:])))
 
         metadata = {}
         metadata["vdiff"] = float(raw[5].split(",")[1])
-        metadata["tdiff"] = float(raw[11].split(",")[1])
+        if raw[11].split(",")[0] == "Waveform Last Dot Address":
+            metadata["tdiff"] = float(raw[12].split(",")[1])
+        else:
+            metadata["tdiff"] = float(raw[11].split(",")[1])
         metadata["v_offset"] = float(raw[6].split(",")[1])
 
         return data, metadata["vdiff"], metadata["tdiff"], metadata["v_offset"]
@@ -21,7 +27,13 @@ def load_csv(fname):
 def find_unit(interval):
     # leaving this function here as a joke.
     # maybe at some point it'll get a proper implementation
-    return r"$\mu s$", 1e6
+    if interval < 1e-5 and interval >= 1e-8:
+        return r"$\mu s$", 1e6
+    elif interval < 1e-2 and interval >= 1e-5:
+        return r"$ms$", 1e3
+    elif interval >= 1e-2:
+        return r"$s$", 1.0
+    return r"$s$", 1.0
 
 
 def plot_single(fname, fout):
@@ -37,7 +49,7 @@ def plot_single(fname, fout):
     plt.xlim([scaled_time[0], scaled_time[-1]])
     #offset = - sum(amplitude) / len(amplitude)
     #print(f"average voltage = {sum(amplitude) / len(amplitude)}V")
-    plt.ylim([-4 * vstep - offset, 4 * vstep - offset])
+    plt.ylim([-4.5 * vstep - offset, 4.5 * vstep + offset])
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
@@ -45,23 +57,24 @@ def plot_single(fname, fout):
     #plt.savefig(fout)
 
 def plot_dual(fname1, fname2, fout):
-    data1, vstep1, tstep1, _ = load_csv(fname1)
-    data2, vstep2, tstep2, _ = load_csv(fname2)
+    data1, vstep1, tstep1, offset_1 = load_csv(fname1)
+    data2, vstep2, tstep2, offset_2 = load_csv(fname2)
     cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
     time = np.arange(0, len(data1)) * tstep1
     unit, unit_value = find_unit(tstep1)
     amplitude1 = data1 * vstep1 * cal_factor
     amplitude2 = data2 * vstep2 * cal_factor
     scaled_time = time * unit_value
-    plt.plot(scaled_time, amplitude1, label="CH1")
-    plt.plot(scaled_time, amplitude2, label="CH2")
+    plt.plot(scaled_time, amplitude1 + offset_1, label="CH1")
+    plt.plot(scaled_time, amplitude2 + offset_2, label="CH2")
+    plt.ylim([-4.5 * vstep1 - offset_1, 4.5 * vstep1 + offset_1])
     plt.xlabel(unit)
     plt.ylabel("V")
     plt.xlim([scaled_time[0], scaled_time[-1]])
     plt.grid()
     plt.legend()
-    plt.show()
-    #plt.savefig(fout)
+    #plt.show()
+    plt.savefig(fout)
 
 
 if __name__ == "__main__":

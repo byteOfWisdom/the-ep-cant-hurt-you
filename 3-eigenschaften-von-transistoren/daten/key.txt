@@ -1,0 +1,31 @@
+0000 -> accumulate, kennlinien bipolar (kurz)
+0001 -> langes accumulate, kennlinien bjt
+0002 -> kennlinien bipolar, gezoomt, kurz acc
+0003 -> same as 0002, longer acc
+
+POTI FET kennlinien: 0.491 ± 0.01 Mega Ohm
+
+0006 bis 0008 -> FET kennlinien
+
+0009 bis 0011 -> BJT Kennlinien gestaffelt
+
+0012 -> Emitterfolger, 2V DC offset, 2.1Vpp sinus
+0013 -> Aussteuergrenzen, 16Vpp, 2V offset
+0014 -> aussteuergrenze, keine offsetspannung, 11.5Vpp
+0015 -> "", offset V=4.2
+0016 -> Vorspannung (nicht ganz 2V)
+0017 -> Vorspannung mit 0.1uF Kondensator, 2V
+0018 -> 1nF, Vorspannung 2V
+0019 -> same aber gleich skala
+0023 -> größter auslenkbereich, 1uF, -> 3.5V spannungsteiler
+0024 -> kleinerer auslenkbereich, 1uF, -> 0.6V spannungsteiler
+0025 -> emitterfolger brett 2, Offset 5V
+0026 -> " 2.5V offset
+0027 -> " 0V offset
+
+0028 -> emitterfolger FET, 5V offset
+0029 -> Transistorendladung, kein folger angeschlossen, 1uF
+0030 -> 1uF mit emitterfolger
+0031 -> 10nF mit emitterfolger
+0032 -> 100p mit emitterfolger
+0033 -> 10nF ohne emitterfolger
