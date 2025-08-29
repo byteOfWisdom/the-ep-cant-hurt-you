@@ -1,0 +1,107 @@
+0000 -> R_E = 470 Ohm,R_C = 390 Ohm
+0001 -> R_E = 4.7 kOhm,R_C = 390 Ohm
+0002 -> R_E = 22 kOhm,R_C = 390 Ohm
+
+0003 -> R_E = 470 Ohm,R_C = 390 Ohm
+0004 -> R_E = 4.7 kOhm,R_C = 390 Ohm
+0005 -> R_E = 22 kOhm,R_C = 390 Ohm
+
+0006 -> Eingangsparameter Lautsprecheraufbau
+lautsprecher kram hat geklappt i guess
+
+0007 -> 4.1.2 Phasenbeziehung des ein und ausgangs
+0008 -> R_E 390, R_C 390 DC
+0009 -> R_E 470, R_C 390 DC
+0010 -> R_E 1k, R_C 390 DC
+0011 -> R_E 2.2k, R_C 390 DC
+0012 -> R_E 4.7k, R_C 390 DC
+
+Ab hier AC coupling
+0013 -> R_E 390, R_C 390
+0014 -> R_E 470, R_C 390
+0015 -> R_E 1k, R_C 390
+0016 -> R_E 2.2k, R_C 390
+0017 -> R_E 4.7k, R_C 390
+
+0018 -> R_C 390, R_E 390
+0019 -> R_C 470, R_E 390
+0020 -> R_C 470, R_E 390
+0021 -> R_C 1k, R_E 390
+0022 -> R_C 2.2k, R_E 390
+0023 -> R_C 4.7k, R_E 390
+
+0024 -> R_E = 0, R_C = 390, U_B = 0.683V
+0025 -> U_B = 0.648 V (obere Grenze)
+0026 -> U_B = 0.688 V (untere Grenze)
+0027 -> U_B = 4V (Anschlag) mit R_E = 390
+0028 -> U_B = 0.66 mit R_E=390
+
+0029 -> ungefähres maximum, 0.1uF (125kHz)
+0030 -> anfang plateau 0.1uF (99kHz)
+
+Es folgen Emmitterschaltung unter verschiedenen Frequenzen, U_B = 0.91V, dU_B = 100mVpp (eingestellt)
+
+U_in falsch abgegriffen:
+0031 -> 100Hz
+0032 -> 500Hz
+0033 -> 1kHz
+0034 -> 5kHz
+0035 -> 10kHz
+0036 -> 50kHz
+0037 -> 100kHz
+
+U_in richtig abgegriffen:
+0038 -> 100Hz
+0039 -> 500Hz
+0040 -> 1kHz
+0041 -> 5kHz
+0042 -> 10kHz
+0043 -> 50kHz
+0044 -> 100kHz
+0045 -> 200kHz
+0046 -> 300kHz
+0047 -> 400kHz
+0048 -> 500kHz
+0049 -> 600kHz
+0050 -> 700kHz
+0051 -> 700kHz
+0052 -> 800kHz
+0053 -> 900kHz
+0054 -> 1MHz
+0055 -> 1.1MHz
+0056 -> 1.2MHz
+
+
+Mit kaskode, sonst gleich:
+0057 -> 100Hz
+0058 -> 500Hz
+0059 -> 1kHz
+0060 -> 5kHz
+0061 -> 10kHz
+0062 -> 50kHz
+0063 -> 100kHz
+0064 -> 200kHz
+0065 -> 300kHz
+0066 -> 400kHz
+0067 -> 500kHz
+0068 -> 600kHz
+0069 -> 700kHz
+0070 -> 800kHz
+0071 -> 900kHz
+0072 -> 1MHz
+0073 -> 1.1MHz
+0074 -> 1.2MHz
+0075 -> 1.3MHz
+0076 -> 1.4MHz
+0077 -> 1.5MHz
+0078 -> 1.6MHz
+0079 -> 1.7MHz
+0080 -> 1.8MHz
+0081 -> 1.8MHz
+0082 -> 1.9MHz
+
+
+0083 -> 1kHz, R=100kOhm, 100mVpp an R_in
+0084 -> 1kHz, R=33kOhm, 100mVpp ""
+0085 -> 1kHz R=100kOhm, 100mVpp hinter R_in
+0086 -> 1kHz R=33kOhm, 100mVpp hinter R_in
