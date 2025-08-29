@@ -42,22 +42,26 @@ def get_SI_values(fname):
     return scaled_time, amplitude, dt, dv
 
 
-def get_freq(times, values):
-    fft_values = np.abs(np.fft.fft(values))
-    freqs = np.fft.fftfreq(values.size, d = times[1] - times[0])
+def get_freq(times, values, reject = 0):
+    fft_values = np.abs(np.fft.fft(values))[reject:]
+    freqs = np.fft.fftfreq(values.size, d = times[1] - times[0])[reject:]
     return ev(abs(freqs[fft_values == max(fft_values)])[0], freqs[1] - freqs[0])
 
 
-def get_Upp(voltages):
+def get_Upp(voltages, conf = 0.99):
     #maybe add denoising here if single outliers are a problem
-    return max(voltages) - min(voltages)
+    v_sorted = np.array(list(sorted(voltages)))
+    avg = sum(voltages) / len(voltages)
+    upper = max(v_sorted[v_sorted > avg][:int(conf * len(v_sorted[v_sorted > avg]))])
+    lower = min(v_sorted[v_sorted < avg][int((1.0 - conf) * len(v_sorted[v_sorted < avg])):])
+    return upper - lower
 
 
 def extract_data(fname1, fname2):
     t1, u1, dt1, dv1 = get_SI_values(fname1)
     t2, u2, dt2, dv2 = get_SI_values(fname2)
-    f = 0.5 * (get_freq(t1, u1) + get_freq(t2, u2))
-    v = ev(get_Upp(u2), dv2) / ev(get_Upp(u1), dv1)
+    f = 0.5 * (get_freq(t1, u1, 1) + get_freq(t2, u2, 1))
+    v = ev(get_Upp(u2, 0.95), dv2) / ev(get_Upp(u1, 0.95), dv1)
     return f, v, ev(get_Upp(u1), dv1), ev(get_Upp(u2), dv2)
 
 

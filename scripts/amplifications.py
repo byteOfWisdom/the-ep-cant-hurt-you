@@ -44,18 +44,18 @@ def get_SI_values(fname):
     return scaled_time, amplitude, dt, dv
 
 
-def get_freq(times, values):
-    fft_values = np.abs(np.fft.fft(values))
-    freqs = np.fft.fftfreq(values.size, d = times[1] - times[0])
+def get_freq(times, values, reject = 0):
+    fft_values = np.abs(np.fft.fft(values))[reject:]
+    freqs = np.fft.fftfreq(values.size, d = times[1] - times[0])[reject:]
     return ev(abs(freqs[fft_values == max(fft_values)])[0], freqs[1] - freqs[0])
 
 
-def get_Upp(voltages):
+def get_Upp(voltages, conf = 0.95):
     #maybe add denoising here if single outliers are a problem
     v_sorted = np.array(list(sorted(voltages)))
-    upper = max(v_sorted[v_sorted > 0.][:int(0.99 * len(v_sorted[v_sorted > 0.]))])
-    lower = min(v_sorted[v_sorted < 0.][int(0.99 * len(v_sorted[v_sorted < 0.])):])
-    #return max(voltages) - min(voltages)
+    avg = sum(voltages) / len(voltages)
+    upper = max(v_sorted[v_sorted > avg][:int(conf * len(v_sorted[v_sorted > avg]))])
+    lower = min(v_sorted[v_sorted < avg][int((1.0 - conf) * len(v_sorted[v_sorted < avg])):])
     return upper - lower
 
 
