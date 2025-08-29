@@ -2,6 +2,7 @@
 import numpy as np
 from sys import argv
 from matplotlib import pyplot as plt
+from glob import glob
 
 
 def load_csv(fname):
@@ -65,24 +66,46 @@ def plot_dual(fname1, fname2, fout):
     amplitude1 = data1 * vstep1 * cal_factor
     amplitude2 = data2 * vstep2 * cal_factor
     scaled_time = time * unit_value
-    plt.plot(scaled_time, amplitude1 + offset_1, label="CH1")
-    plt.plot(scaled_time, amplitude2 + offset_2, label="CH2")
-    plt.ylim([-4.5 * vstep1 - offset_1, 4.5 * vstep1 + offset_1])
-    plt.xlabel(unit)
-    plt.ylabel("V")
-    plt.xlim([scaled_time[0], scaled_time[-1]])
-    plt.grid()
-    plt.legend()
-    #plt.show()
-    plt.savefig(fout)
+
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx()
+
+    p1 = ax1.plot(scaled_time, amplitude1 + offset_1, label="CH1", color="tab:blue")
+
+    ax1.set_ylim(-4.5 * vstep1 - offset_1, 4.5 * vstep1 + offset_1)
+    ax2.set_ylim(-4.5 * vstep2 - offset_2, 4.5 * vstep2 + offset_2)
+
+    ax1.set_xlabel(unit)
+    ax1.set_ylabel("V", color="tab:blue")
+    ax1.set_xlim(scaled_time[0], scaled_time[-1])
+
+    ax1.grid(which="major")
+    ax1.grid(which="minor", linestyle=":", linewidth=0.5)
+    ax1.minorticks_on()
+    ax2.set_ylabel("V", color="tab:orange")
+    ax2.tick_params(axis="y",labelcolor="tab:orange")
+    p2 = ax2.plot(scaled_time, amplitude2 + offset_2, label="CH2", color="tab:orange")
+    ax2.set_ylim(min(amplitude2 + offset_2) * 1.1, max(amplitude2 + offset_2) * 1.1)
+    ax1.legend(p1 + p2, [l.get_label() for l in p1 + p2])
+    plt.show()
+    #plt.savefig(fout)
+
+
+def pad(n):
+    s = str(n)
+    while len(s) < 4:
+        s = "0" + s
+
+    return s
 
 
 if __name__ == "__main__":
-    fname = argv[1]
-    fout = fname[0:-4] + ".pdf"
-    if len(argv) > 2:
-        fout = argv[-1]
-    if len(argv) > 3:
-        plot_dual(argv[1], argv[2], fout)
+    path = argv[1][:-4]
+    num = int(argv[1][-4:])
+
+    fout = "/dev/zero"
+
+    if len(glob(argv[1] + "/*.CSV")) > 1:
+        plot_dual(argv[1] + f"/A{pad(num)}CH1.CSV", argv[1] + f"/A{pad(num)}CH2.CSV", fout)
     else:
-        plot_single(fname, fout)
+        plot_single(argv[1] + f"/A{pad(num)}CH1.CSV", fout)

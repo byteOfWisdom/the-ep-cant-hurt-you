@@ -2,7 +2,6 @@ from labtools.perror import ev as e
 from labtools.perror import value as val
 from labtools.perror import error as err
 
-#e = perror.ev
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.optimize import curve_fit

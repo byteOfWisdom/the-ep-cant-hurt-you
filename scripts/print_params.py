@@ -58,7 +58,7 @@ def extract_data(fname1, fname2):
     t2, u2, dt2, dv2 = get_SI_values(fname2)
     f = 0.5 * (get_freq(t1, u1) + get_freq(t2, u2))
     v = ev(get_Upp(u2), dv2) / ev(get_Upp(u1), dv1)
-    return f, v
+    return f, v, ev(get_Upp(u1), dv1), ev(get_Upp(u2), dv2)
 
 
 def pad(n):
@@ -69,41 +69,20 @@ def pad(n):
     return s
 
 
-def collate(start, count, name):
+def say(start):
     path = start[:-4]
     start_num = int(start[-4:])
 
-    amps = []
-    damps = []
-    freqs = []
-    dfreqs = []
+    f_ch1 = path + pad(start_num) + f"/A{pad(start_num)}CH1.CSV"
+    f_ch2 = path + pad(start_num) + f"/A{pad(start_num)}CH2.CSV"
 
-    for i in range(start_num, start_num + count):
-        f_ch1 = path + pad(i) + f"/A{pad(i)}CH1.CSV"
-        f_ch2 = path + pad(i) + f"/A{pad(i)}CH2.CSV"
+    f, v, upp1, upp2 = extract_data(f_ch1, f_ch2)
 
-        f, v = extract_data(f_ch1, f_ch2)
-        freqs.append(f.value)
-        dfreqs.append(f.error)
-        amps.append(v.value)
-        damps.append(v.error)
-
-    plt.errorbar(freqs, amps, fmt=".", yerr=damps, xerr=dfreqs, label=name)
+    print(f"estimated freq: f = {f} Hz")
+    print(f"estimated amp: v = {v}")
+    print(f"U_pp_ch1 = {upp1}")
+    print(f"U_pp_ch2 = {upp2}")
 
 
 if __name__ == "__main__":
-    collate(argv[1], int(argv[2]), "ohne Kaskode")
-    if len(argv) > 3:
-        collate(argv[3], int(argv[4]), "mit Kaskode")
-
-    plt.xlabel("ln(Frequenz) [ln(Hz)]")
-    plt.ylabel("Verstärkung")
-    plt.grid()
-    plt.grid(which="major")
-    plt.grid(which="minor", linestyle=":", linewidth=0.5)
-    plt.gca().minorticks_on()
-    if len(argv) > 3:
-        plt.legend()
-
-    plt.loglog()
-    plt.show()
+    say(argv[1])
