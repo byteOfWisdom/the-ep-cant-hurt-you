@@ -1,6 +1,7 @@
 #!python3
 import numpy as np
 from sys import argv
+from matplotlib import pyplot as plt
 
 def load_csv(fname):
     with open(fname, "r") as file:
@@ -40,32 +41,59 @@ def get_SI_values(fname):
 
 def get_freq(times, values):
     fft_values = np.abs(np.fft.fft(values))
-    freqs = np.fft.fftfreq(values.size(), d = times[1] - times[0])
-    return freqs[max(fft_values)]
+    freqs = np.fft.fftfreq(values.size, d = times[1] - times[0])
+    return abs(freqs[fft_values == max(fft_values)])[0]
 
 
-def extract_data(fname):
-    t, u = get_SI_values(fname)
-    f = get_freq(t, u)
-    return f
+def get_Upp(voltages):
+    #maybe add denoising here if single outliers are a problem
+    return min(voltages) - max(voltages)
+
+
+def extract_data(fname1, fname2):
+    t1, u1 = get_SI_values(fname1)
+    t2, u2 = get_SI_values(fname2)
+    f = 0.5 * (get_freq(t1, u1) + get_freq(t2, u2))
+    v = get_Upp(u2) / get_Upp(u1)
+    return f, v
 
 
 def pad(n):
     s = str(n)
-    while len(s) > 4:
+    while len(s) < 4:
         s = "0" + s
     return s
 
 
-if __name__ == "__main__":
-    start = argv[1]
+def collate(start, count):
     path = start[:-4]
     start_num = int(start[-4:])
-    count = int(argv[2])
+
+    amps = []
+    freqs = []
 
     for i in range(start_num, start_num + count):
         f_ch1 = path + pad(i) + f"/A{pad(i)}CH1.CSV"
         f_ch2 = path + pad(i) + f"/A{pad(i)}CH2.CSV"
 
-        print(extract_data(f_ch1))
-        print(extract_data(f_ch2))
+        f, v = extract_data(f_ch1, f_ch2)
+        freqs.append(f)
+        amps.append(v)
+
+    plt.plot(freqs, amps)
+
+
+if __name__ == "__main__":
+    collate(argv[1], int(argv[2]))
+    if len(argv) > 3:
+        collate(argv[3], int(argv[4]))
+
+    plt.xlabel("ln(Frequenz) [ln(Hz)]")
+    plt.ylabel("Verstärkung")
+    plt.grid()
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    plt.legend()
+    plt.loglog()
+    plt.show()
