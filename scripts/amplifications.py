@@ -3,6 +3,8 @@ import numpy as np
 from sys import argv
 from matplotlib import pyplot as plt
 from labtools.perror import ev, value, error
+from scipy.optimize import curve_fit
+
 
 def load_csv(fname):
     with open(fname, "r") as file:
@@ -50,7 +52,11 @@ def get_freq(times, values):
 
 def get_Upp(voltages):
     #maybe add denoising here if single outliers are a problem
-    return max(voltages) - min(voltages)
+    v_sorted = np.array(list(sorted(voltages)))
+    upper = max(v_sorted[v_sorted > 0.][:int(0.99 * len(v_sorted[v_sorted > 0.]))])
+    lower = min(v_sorted[v_sorted < 0.][int(0.99 * len(v_sorted[v_sorted < 0.])):])
+    #return max(voltages) - min(voltages)
+    return upper - lower
 
 
 def extract_data(fname1, fname2):
@@ -88,7 +94,7 @@ def collate(start, count, name):
         amps.append(v.value)
         damps.append(v.error)
 
-    plt.errorbar(freqs, amps, fmt=".", yerr=damps, xerr=dfreqs, label=name)
+    plt.errorbar(freqs, amps, fmt=" ", yerr=damps, xerr=dfreqs, label=name, elinewidth=0.75, capsize=2)
 
 
 if __name__ == "__main__":

@@ -74,6 +74,7 @@ def plot_dual(fname1, fname2, fout):
     ax2 = ax1.twinx()
 
     p1 = ax1.plot(scaled_time, amplitude1 + offset_1, label="CH1", color="tab:blue")
+    p2 = ax2.plot(scaled_time, amplitude2 + offset_2, label="CH2", color="tab:orange")
 
     ax1.set_ylim(-4.5 * vstep1 - offset_1, 4.5 * vstep1 + offset_1)
     ax2.set_ylim(-4.5 * vstep2 - offset_2, 4.5 * vstep2 + offset_2)
@@ -88,8 +89,6 @@ def plot_dual(fname1, fname2, fout):
     ax2.set_ylabel("V", color="tab:orange")
     ax2.tick_params(axis="y",labelcolor="tab:orange")
     ax1.tick_params(axis="y",labelcolor="tab:blue")
-    p2 = ax2.plot(scaled_time, amplitude2 + offset_2, label="CH2", color="tab:orange")
-    ax2.set_ylim(min(amplitude2 + offset_2) * 1.1, max(amplitude2 + offset_2) * 1.1)
     ax1.legend(p1 + p2, [l.get_label() for l in p1 + p2])
 
     if fout[-4:] == ".pdf":
