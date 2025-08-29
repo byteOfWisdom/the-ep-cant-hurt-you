@@ -54,8 +54,11 @@ def plot_single(fname, fout):
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
-    plt.show()
-    #plt.savefig(fout)
+
+    if fout[-4:] == ".pdf":
+        plt.savefig(fout)
+    else:
+        plt.show()
 
 def plot_dual(fname1, fname2, fout):
     data1, vstep1, tstep1, offset_1 = load_csv(fname1)
@@ -84,11 +87,15 @@ def plot_dual(fname1, fname2, fout):
     ax1.minorticks_on()
     ax2.set_ylabel("V", color="tab:orange")
     ax2.tick_params(axis="y",labelcolor="tab:orange")
+    ax1.tick_params(axis="y",labelcolor="tab:blue")
     p2 = ax2.plot(scaled_time, amplitude2 + offset_2, label="CH2", color="tab:orange")
     ax2.set_ylim(min(amplitude2 + offset_2) * 1.1, max(amplitude2 + offset_2) * 1.1)
     ax1.legend(p1 + p2, [l.get_label() for l in p1 + p2])
-    plt.show()
-    #plt.savefig(fout)
+
+    if fout[-4:] == ".pdf":
+        plt.savefig(fout)
+    else:
+        plt.show()
 
 
 def pad(n):
@@ -103,7 +110,7 @@ if __name__ == "__main__":
     path = argv[1][:-4]
     num = int(argv[1][-4:])
 
-    fout = "/dev/zero"
+    fout =  argv[2] if len(argv) > 2 and argv[2][-4:] == ".pdf" else "/dev/zero"
 
     if len(glob(argv[1] + "/*.CSV")) > 1:
         plot_dual(argv[1] + f"/A{pad(num)}CH1.CSV", argv[1] + f"/A{pad(num)}CH2.CSV", fout)

@@ -2,9 +2,9 @@
 0001 -> R_E = 4.7 kOhm,R_C = 390 Ohm
 0002 -> R_E = 22 kOhm,R_C = 390 Ohm
 
-0003 -> R_E = 470 Ohm,R_C = 390 Ohm
-0004 -> R_E = 4.7 kOhm,R_C = 390 Ohm
-0005 -> R_E = 22 kOhm,R_C = 390 Ohm
+0003 -> R_C = 470 Ohm, R_E= 390 Ohm
+0004 -> R_C = 4.7 kOhm, R_E = 390 Ohm
+0005 -> R_C = 22 kOhm, R_E= 390 Ohm
 
 0006 -> Eingangsparameter Lautsprecheraufbau
 lautsprecher kram hat geklappt i guess

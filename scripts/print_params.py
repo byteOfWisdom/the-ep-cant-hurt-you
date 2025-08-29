@@ -38,7 +38,7 @@ def get_SI_values(fname):
     amplitude = data * vstep * cal_factor
     scaled_time = time * unit_value
     dt = scaled_time[1] - scaled_time[0]
-    dv = vstep * cal_factor
+    dv = 2 * vstep * cal_factor
     return scaled_time, amplitude, dt, dv
 
 
