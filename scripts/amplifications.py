@@ -5,6 +5,13 @@ from matplotlib import pyplot as plt
 from labtools.perror import ev, value, error
 from scipy.optimize import curve_fit
 
+def c_iter():
+    yield "tab:blue"
+    yield "tab:cyan"
+    yield "tab:orange"
+    yield "tab:red"
+
+colors = c_iter()
 
 def load_csv(fname):
     with open(fname, "r") as file:
@@ -50,7 +57,7 @@ def get_freq(times, values, reject = 0):
     return ev(abs(freqs[fft_values == max(fft_values)])[0], freqs[1] - freqs[0])
 
 
-def get_Upp(voltages, conf = 0.95):
+def get_Upp(voltages, conf = 0.99):
     #maybe add denoising here if single outliers are a problem
     v_sorted = np.array(list(sorted(voltages)))
     avg = sum(voltages) / len(voltages)
@@ -94,7 +101,37 @@ def collate(start, count, name):
         amps.append(v.value)
         damps.append(v.error)
 
-    plt.errorbar(freqs, amps, fmt=" ", yerr=damps, xerr=dfreqs, label=name, elinewidth=0.75, capsize=2)
+    # find ft und fg
+    fg, ft = 0, 0
+    dfg, dft = 0, 0
+    for i in range(len(amps)):
+        if amps[i] < amps[0] / np.sqrt(2):
+            fg = 0.5 * (freqs[i] + freqs[i - 1])
+            dfg = 0.5 * (freqs[i] - freqs[i - 1])
+            break
+
+    for i in range(len(amps)):
+        if amps[i] < 1:
+            ft = 0.5 * (freqs[i] + freqs[i - 1])
+            dft = 0.5 * (freqs[i] - freqs[i - 1])
+            break
+    if min(amps) > 1:
+        ft = freqs[-1]
+        dft = 0.5 * (freqs[-1] - freqs[-2])
+
+    dft = max(dft, dfreqs[-1])
+
+    print(name)
+    print(f"grenzfrequenz = {ev(fg, dfg)}")
+    print(f"transitfrequezn = {ev(ft, dft)}")
+    print()
+
+    fgc = next(colors)
+    plt.hlines(amps[0] / np.sqrt(2), 0, max(freqs) * 1.1, color=fgc, linestyle = "--")
+    plt.vlines(fg, 0.9, max(amps), label="$f_\\text{g, " + name + "}$", color = fgc, linestyle="--")
+    plt.vlines(ft, 0.9, max(amps), label="$f_\\text{t, " + name + "}$", color = next(colors), linestyle="--")
+
+    plt.errorbar(freqs, amps, fmt=" ", yerr=damps, xerr=dfreqs, label=name, elinewidth=0.75, capsize=2, color = fgc)
 
 
 if __name__ == "__main__":
@@ -102,14 +139,14 @@ if __name__ == "__main__":
     if len(argv) > 3:
         collate(argv[3], int(argv[4]), "mit Kaskode")
 
-    plt.xlabel("ln(Frequenz) [ln(Hz)]")
+    plt.xlabel("Frequenz [Hz]")
     plt.ylabel("Verstärkung")
     plt.grid()
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
     if len(argv) > 3:
-        plt.legend()
+        plt.legend(loc="lower left")
 
     plt.loglog()
     plt.show()
