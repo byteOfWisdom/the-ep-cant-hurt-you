@@ -3,6 +3,15 @@ import matplotlib
 from sys import argv
 
 from matplotlib import pyplot as plt
+from labtools.perror import ev
+
+def tex(v):
+    s = str(v)
+    if "^" in s:
+        s = s.replace("^", "^{")
+        s += "}"
+    s = s.replace("+-", r"\pm").replace("*", r"\cdot ")
+    return s
 
 
 def unpackdata(filename, polarity):
@@ -39,21 +48,40 @@ err_I2 = [0.5 for _ in Ud2_sperr] + [0.1 for _ in Ud2_durchlass]
 
 Ud2, Id2 = Ud2_sperr + Ud2_durchlass, Id2_sperr + Id2_durchlass
 
-plt.xlabel(r"U [V]")
-plt.ylabel(r"I [mA]")
+for i in range(max([len(Ud1), len(Ud2)])):
+    line = ""
+    if i < len(Ud1):
+        line += f"${tex(ev(Ud1[i], err_U1[i]))}$ "
+    line += " & "
+    if i < len(Id1):
+        line += f"${tex(ev(Id1[i], err_I1[i]))}$"
+    line += " & "
+    if i < len(Ud2):
+        line += f"${tex(ev(Ud2[i], err_U2[i]))}$"
+    line += " & "
+    if i < len(Id2):
+        line += f"${tex(ev(Id2[i], err_I2[i]))}$"
+    line += "\\\\"
 
-plt.plot(Ud1, Id1)
-plt.errorbar(Ud1, Id1, xerr=err_U1, yerr=err_I1, fmt="x")
-plt.grid()
+    print(line)
+
+#plt.xlabel(r"U [V]")
+#plt.ylabel(r"I [mA]")
+
+#plt.plot(Ud1, Id1)
+#plt.errorbar(Ud1, Id1, xerr=err_U1, yerr=err_I1, fmt="x")
+#plt.grid()
 #plt.show()
-plt.savefig("d1kennlinie.pdf")
-plt.cla()
+#plt.savefig("d1kennlinie.pdf")
+#plt.cla()
 
-plt.xlabel(r"U [V]")
-plt.ylabel(r"I [mA]")
+#plt.xlabel(r"U [V]")
+#plt.ylabel(r"I [mA]")
 
-plt.plot(Ud2, Id2)
-plt.errorbar(Ud2, Id2, xerr=err_U2, yerr=err_I2, fmt="x")
-plt.grid()
+
+
+#plt.plot(Ud2, Id2)
+#plt.errorbar(Ud2, Id2, xerr=err_U2, yerr=err_I2, fmt="x")
+#plt.grid()
 #plt.show()
-plt.savefig("d2kennlinie.pdf")
+#plt.savefig("d2kennlinie.pdf")

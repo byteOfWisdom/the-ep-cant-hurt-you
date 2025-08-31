@@ -3,6 +3,17 @@ import numpy as np
 from sys import argv
 from matplotlib import pyplot as plt
 from labtools.perror import ev, value, error
+from scipy.optimize import curve_fit
+
+
+def tex(v):
+    s = str(v)
+    if "^" in s:
+        s = s.replace("^", "^{")
+        s += "}"
+    s = s.replace("+-", r"\pm").replace("*", r"\cdot ")
+    return s
+
 
 def load_csv(fname):
     with open(fname, "r") as file:
@@ -65,7 +76,6 @@ def get_Upp(voltages, conf = 0.99):
     #upper = max(voltages)
     #lower = min(voltages)
 
-    #print(f"{lower} to {upper}")
     return upper - lower
 
 
@@ -73,7 +83,7 @@ def extract_data(fname1, fname2):
     t1, u1, dt1, dv1 = get_SI_values(fname1)
     t2, u2, dt2, dv2 = get_SI_values(fname2)
     f = 0.5 * (get_freq(t1, u1, 1) + get_freq(t2, u2, 1))
-    v = ev(get_Upp(u2, 0.99), dv2) / ev(get_Upp(u1, 0.99), dv1)
+    v = ev(get_Upp(u2, 0.95), dv2) / ev(get_Upp(u1, 0.95), dv1)
     return f, v, ev(get_Upp(u1), dv1), ev(get_Upp(u2), dv2)
 
 
@@ -85,7 +95,17 @@ def pad(n):
     return s
 
 
-def say(start):
+def plot_stuff(name = ""):
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    plt.legend()
+    plt.show() if name == "" else plt.savefig(name)
+    plt.cla()
+
+
+
+def get(start):
     path = start[:-4]
     start_num = int(start[-4:])
 
@@ -94,11 +114,67 @@ def say(start):
 
     f, v, upp1, upp2 = extract_data(f_ch1, f_ch2)
 
-    print(f"estimated freq: f = {f} Hz")
-    print(f"estimated amp: v = {v}")
-    print(f"U_pp_ch1 = {upp1}")
-    print(f"U_pp_ch2 = {upp2}")
+    return upp1, upp2, v
+
+
+linear = lambda x, a, b : a * x + b
 
 
 if __name__ == "__main__":
-    say(argv[1])
+    tbl = argv[1]
+    files, rcs, res = [], [], []
+    with open(tbl) as f:
+        for line in f.readlines():
+            files.append(line.split()[0])
+            rcs.append(float(line.split()[1]))
+            res.append(float(line.split()[2]))
+
+    rcs, res = iter(rcs), iter(res)
+
+
+    table_row = lambda rc, re, u1, u2, v, vtheo: f"${tex(rc)}$ & ${tex(re)}$ & $ {tex(u1)}$ & $ {tex(u2)}$ & $ {tex(v)} $ & $ {tex(vtheo)}$\\\\"
+    Rc, Re, V = [], [], []
+    for input in files:
+        u1, u2, v = get(input)
+        rc, re = next(rcs), next(res)
+        Rc.append(rc)
+        Re.append(re)
+        V.append(0 - v)
+        #print(table_row(rc, re, u1, u2, 0 - v, - round(rc / re, 2)))
+
+    Rc = np.array(Rc)
+    Re = np.array(Re)
+    V = np.array(V)
+
+    plt.errorbar(Re[Rc == 390], value(1 / V)[Rc == 390], yerr = error(1 / V)[Rc == 390], fmt=".", elinewidth=0.75, capsize=2, label=r"$R_c = \mathrm{const}$")
+
+    fit, cov = curve_fit(linear, Re[Rc == 390], value(1 / V)[Rc == 390], sigma = error(1 / V)[Rc == 390])
+    errs = np.sqrt(np.diag(cov))
+    a = ev(fit[0], errs[0])
+    b = ev(fit[1], errs[1])
+    Rc_fit = - 1 / a
+    v0 = 1 / b
+    print(f"gefittet: Rc = {Rc_fit}")
+    print(f"gefittet: v0 = {v0}")
+    plt.plot(np.linspace(min(Re), max(Re), 1000), linear(np.linspace(min(Re), max(Re), 1000), a.value, b.value))
+    plot_stuff()
+
+    plt.errorbar(Rc[Re == 390], value(V)[Re == 390], yerr = error(V)[Re == 390], fmt=".", elinewidth=0.75, capsize=2, label=r"$R_e = \mathrm{const}$")
+
+    fit, cov = curve_fit(linear, Rc[Re == 390], value(V)[Re == 390], sigma = error(V)[Re == 390])
+    errs = np.sqrt(np.diag(cov))
+    a = ev(fit[0], errs[0])
+    b = ev(fit[1], errs[1])
+
+    beta = ev(171.0, 6.0)
+    v0_theo = ev(148, 6)
+    rbe = 0 - beta / v0_theo
+
+    a_theo = beta / (rbe + (beta + 1) * 390)
+
+    print(f"a = {a}")
+    print(f"a_t = {a_theo}")
+    print(f"b = {b}")
+    plt.plot(np.linspace(min(Re), max(Re), 1000), linear(np.linspace(min(Re), max(Re), 1000), a.value, b.value))
+
+    plot_stuff()

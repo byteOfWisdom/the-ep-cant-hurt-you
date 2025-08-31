@@ -13,6 +13,9 @@ def c_iter():
 
 colors = c_iter()
 
+ref_fg = 0
+ref_ft = 0
+
 def load_csv(fname):
     with open(fname, "r") as file:
         raw = file.readlines()
@@ -83,6 +86,7 @@ def pad(n):
 
 
 def collate(start, count, name):
+    global ref_ft, ref_fg
     path = start[:-4]
     start_num = int(start[-4:])
 
@@ -121,10 +125,18 @@ def collate(start, count, name):
 
     dft = max(dft, dfreqs[-1])
 
+
     print(name)
     print(f"grenzfrequenz = {ev(fg, dfg)}")
     print(f"transitfrequezn = {ev(ft, dft)}")
     print()
+
+    if ref_fg == 0:
+        ref_fg = ev(fg, dfg)
+        ref_ft = ev(ft, dft)
+    else:
+        print(f"verhältniss grenz = {ev(fg, dfg) / ref_fg}")
+        print(f"verhältniss trans = {ev(ft, dft) / ref_ft}")
 
     fgc = next(colors)
     plt.hlines(amps[0] / np.sqrt(2), 0, max(freqs) * 1.1, color=fgc, linestyle = "--")

@@ -73,6 +73,14 @@ def plot_dual(fname1, fname2, fout):
     fig, ax1 = plt.subplots()
     ax2 = ax1.twinx()
 
+    #famp1 = np.fft.fft(amplitude1)
+    #famp1[np.abs(famp1) < 0.1 * max(np.abs(famp1))] = 0.0
+    #amplitude1 = np.fft.ifft(famp1)
+
+    #famp2 = np.fft.fft(amplitude2)
+    #famp2[np.abs(famp2) < 0.1 * max(np.abs(famp2))] = 0.0
+    #amplitude2 = np.fft.ifft(famp2)
+
     p1 = ax1.plot(scaled_time, amplitude1 + offset_1, label="CH1", color="tab:blue")
     p2 = ax2.plot(scaled_time, amplitude2 + offset_2, label="CH2", color="tab:orange")
 

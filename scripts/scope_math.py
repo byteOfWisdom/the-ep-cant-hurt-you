@@ -1,6 +1,7 @@
 #!python3
 import numpy as np
 from sys import argv
+from labtools.perror import ev
 
 
 def load_csv(fname):
@@ -20,7 +21,7 @@ def load_voltages(fname):
     v, vstep, _ = load_csv(fname)
     cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
     v_amp = v * vstep * cal_factor
-    return list(v_amp)
+    return ev(v_amp, 2 * v_amp)
 
 if __name__ == "__main__":
     if len(argv) > 2:
