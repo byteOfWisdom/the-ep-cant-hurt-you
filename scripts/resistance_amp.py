@@ -147,34 +147,43 @@ if __name__ == "__main__":
     V = np.array(V)
 
     plt.errorbar(Re[Rc == 390], value(1 / V)[Rc == 390], yerr = error(1 / V)[Rc == 390], fmt=".", elinewidth=0.75, capsize=2, label=r"$R_c = \mathrm{const}$")
+    plt.xlabel(r"$R_E$ [$\Omega$]")
+    plt.ylabel("$v^{-1}$")
 
     fit, cov = curve_fit(linear, Re[Rc == 390], value(1 / V)[Rc == 390], sigma = error(1 / V)[Rc == 390])
     errs = np.sqrt(np.diag(cov))
     a = ev(fit[0], errs[0])
     b = ev(fit[1], errs[1])
+
     Rc_fit = - 1 / a
     v0 = 1 / b
+    print(f"a1 = {a}")
+    print(f"b1 = {b}")
     print(f"gefittet: Rc = {Rc_fit}")
     print(f"gefittet: v0 = {v0}")
-    plt.plot(np.linspace(min(Re), max(Re), 1000), linear(np.linspace(min(Re), max(Re), 1000), a.value, b.value))
-    plot_stuff()
+    plt.plot(np.linspace(min(Re), max(Re), 1000), linear(np.linspace(min(Re), max(Re), 1000), a.value, b.value), label="Fitgrade")
+    plot_stuff("res_amps_Rc_const.pdf")
 
     plt.errorbar(Rc[Re == 390], value(V)[Re == 390], yerr = error(V)[Re == 390], fmt=".", elinewidth=0.75, capsize=2, label=r"$R_e = \mathrm{const}$")
+    plt.legend()
+    plt.xlabel(r"$R_C$ [$\Omega$]")
+    plt.ylabel("v")
 
     fit, cov = curve_fit(linear, Rc[Re == 390], value(V)[Re == 390], sigma = error(V)[Re == 390])
     errs = np.sqrt(np.diag(cov))
     a = ev(fit[0], errs[0])
     b = ev(fit[1], errs[1])
 
-    beta = ev(171.0, 6.0)
+    beta = ev(-171.0, 6.0)
     v0_theo = ev(148, 6)
-    rbe = 0 - beta / v0_theo
+    rbe = 0 - beta * 390 / v0_theo
+    print(f"rbe = {rbe}")
 
     a_theo = beta / (rbe + (beta + 1) * 390)
 
-    print(f"a = {a}")
+    print(f"a2 = {a}")
     print(f"a_t = {a_theo}")
-    print(f"b = {b}")
-    plt.plot(np.linspace(min(Re), max(Re), 1000), linear(np.linspace(min(Re), max(Re), 1000), a.value, b.value))
+    print(f"b2 = {b}")
+    plt.plot(np.linspace(min(Re), max(Re), 1000), linear(np.linspace(min(Re), max(Re), 1000), a.value, b.value), label="Fitgrade")
 
-    plot_stuff()
+    plot_stuff("res_amps_Re_const.pdf")

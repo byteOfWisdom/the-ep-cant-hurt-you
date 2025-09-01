@@ -16,6 +16,16 @@ colors = c_iter()
 ref_fg = 0
 ref_ft = 0
 
+
+def tex(v):
+    s = str(v)
+    if "^" in s:
+        s = s.replace("^", "^{")
+        s += "}"
+    s = s.replace("+-", r"\pm").replace("*", r"\cdot ")
+    return s
+
+
 def load_csv(fname):
     with open(fname, "r") as file:
         raw = file.readlines()
@@ -74,7 +84,7 @@ def extract_data(fname1, fname2):
     t2, u2, dt2, dv2 = get_SI_values(fname2)
     f = 0.5 * (get_freq(t1, u1) + get_freq(t2, u2))
     v = ev(get_Upp(u2), dv2) / ev(get_Upp(u1), dv1)
-    return f, v
+    return f, v, ev(get_Upp(u1), dv1), ev(get_Upp(u2), dv2)
 
 
 def pad(n):
@@ -94,16 +104,20 @@ def collate(start, count, name):
     damps = []
     freqs = []
     dfreqs = []
+    print(name)
 
     for i in range(start_num, start_num + count):
         f_ch1 = path + pad(i) + f"/A{pad(i)}CH1.CSV"
         f_ch2 = path + pad(i) + f"/A{pad(i)}CH2.CSV"
 
-        f, v = extract_data(f_ch1, f_ch2)
+
+        f, v, u1, u2 = extract_data(f_ch1, f_ch2)
         freqs.append(f.value)
         dfreqs.append(f.error)
         amps.append(v.value)
         damps.append(v.error)
+        print(r"$ " + tex(u1) + "$&$" + tex(u2) + "$&$" + tex(v) + "$&$" + tex(f) + r"$\\")
+
 
     # find ft und fg
     fg, ft = 0, 0
