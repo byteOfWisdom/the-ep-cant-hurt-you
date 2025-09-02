@@ -10,6 +10,21 @@ def show_or_save():
         plt.show()
 
 
+def opamp_noninverting():
+    f = np.linspace(0, 1e5, 1000000)
+    R = 100e3
+    C = 100e-9
+    v = 1. + 2. * np.pi * R * C * f
+    plt.loglog()
+    plt.plot(f, v)
+    plt.xlabel("Frequenz [Hz]")
+    plt.ylabel("Verstärkung")
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    show_or_save()
+
+
 def gleichrichter():
     x = np.linspace(0, 10 * np.pi, 10000)
     y1 = np.sin(x)
@@ -119,3 +134,5 @@ if __name__ == "__main__":
         kennlinie_a()
     elif argv[1] == "g":
         kennlinie_b()
+    elif argv[1] == "h":
+        opamp_noninverting()

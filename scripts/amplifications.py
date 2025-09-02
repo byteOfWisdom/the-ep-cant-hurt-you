@@ -64,6 +64,12 @@ def get_SI_values(fname):
     return scaled_time, amplitude, dt, dv
 
 
+def denoise(data, emphasis = 0.1):
+    famp = np.fft.fft(data)
+    famp[np.abs(famp) < emphasis * max(np.abs(famp))] = 0.0
+    return np.real(np.fft.ifft(famp))
+
+
 def get_freq(times, values, reject = 0):
     fft_values = np.abs(np.fft.fft(values))[reject:]
     freqs = np.fft.fftfreq(values.size, d = times[1] - times[0])[reject:]
@@ -76,7 +82,14 @@ def get_Upp(voltages, conf = 0.99):
     avg = sum(voltages) / len(voltages)
     upper = max(v_sorted[v_sorted > avg][:int(conf * len(v_sorted[v_sorted > avg]))])
     lower = min(v_sorted[v_sorted < avg][int((1.0 - conf) * len(v_sorted[v_sorted < avg])):])
+
+    #voltages = denoise(voltages, 1 - conf)
+    #upper = max(voltages)
+    #lower = min(voltages)
+
+    #print(f"{lower} to {upper}")
     return upper - lower
+
 
 
 def extract_data(fname1, fname2):

@@ -1,0 +1,56 @@
+0000 bis 0022 -> nichtinvertierender Verstärker 100mVpp input v=11
+
+0023 -> v = 101 demo bei kleiner frequenz
+0024 -> v0=101 bei 41kHz => v=80
+0025 -> " 65kHz => v=60
+0026 -> " 110kHz => v=40
+0027 -> " 209kHz => v=20
+0028 -> " 443kHz => v=10
+
+0029 bis 0048-> nichtinvertierend v=2
+
+0049 -> Anstiegszeit v=101, 1kHz, 200mVpp input
+0050 -> " 21kHz (wegen signalform)
+0051 -> " 69kHz (wegen signalform und amplitude)
+0052 -> " 154kHz "
+0053 -> 154kHz wie oben aber sinus
+0054 -> 69kHz "
+0055 -> 21kHz "
+
+0056 bis 0073-> nichtinvertierend, 200mVpp, sinus, mit Kondensator 0.1uF
+0074 -> sägezahn mit addierer (1kOhm, 2.2k, 4,7k)
+0075 -> "
+0076 -> "
+
+Konstantstromquelle:
+bei 9.4(2)V eingang: 0.21(1)mA
+" 47kOhm 0.38mA -> Strom bleibt konstant
+
+
+0077 -> integrator, 100Hz 1Vpp
+0078 -> " 300Hz (kein widerstand)
+0079 -> " 40Hz (kein widerstand)
+0080 -> 100Hz, 1.7Vpp (kein widerstand)
+
+0081 -> 100Hz 1.1Vpp
+0082 -> 300Hz
+0083 -> 40Hz
+0084 -> 100Hz, 2Vpp
+
+0085 -> hehehe dreieck!
+
+0086 -> sinus, 100Hz
+0087 -> sinus 300Hz
+0088 -> sinus 40Hz
+
+0089 -> lissajous figur, 34Hz, 1Vpp
+0090 -> lissajous figur, 34Hz, 1.5Vpp
+0091 -> " 1Vpp, 174Hz
+
+0092 -> differenzverstärker CA. 3V DC auf +, 1Vpp sinus auf -
+0093 -> " 1.5V DC ungefähr
+0094 -> " eingänge vertauscht
+0095 -> " mehr DC oder so
+
+0096 -> maybe coole schwebung
+0097 bis 0099 -> schwebung
