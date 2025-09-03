@@ -143,7 +143,7 @@ def collate(start, count, name):
     # find ft und fg
     fg, ft = 0, 0
     dfg, dft = 0, 0
-    i = np.where(freqs == freqs[amps <= amps[0] / np.sqrt(2)][0])[0][0]
+    i = np.where(freqs == freqs[amps <= max(amps) / np.sqrt(2)][0])[0][0]
     fg = 0.5 * (freqs[i] + freqs[i - 1])
     dfg = 0.5 * (freqs[i] - freqs[i - 1])
 
@@ -172,11 +172,11 @@ def collate(start, count, name):
         print(f"verhältniss trans = {ev(ft, dft) / ref_ft}")
 
     fgc = next(colors)
-    plt.hlines(amps[0] / np.sqrt(2), min(freqs), max(freqs) * 1.1, color=fgc, linestyle = "--")
+    plt.hlines(max(amps) / np.sqrt(2), min(freqs), max(freqs) * 1.1, color=fgc, linestyle = "--", label="$v_\\text{g, " + name + "}$" if name != "" else "$v_g$")
     plt.vlines(fg, 0.9, max(amps), label="$f_\\text{g, " + name + "}$" if name != "" else "$f_g$", color = fgc, linestyle="--")
     plt.vlines(ft, 0.9, max(amps), label="$f_\\text{t, " + name + "}$" if name != "" else "$f_t$", color = next(colors), linestyle="--")
 
-    plt.xlim(10, 1e7)
+    #plt.xlim(10, 1e7)
     plt.errorbar(freqs, amps, fmt=" ", yerr=damps, xerr=dfreqs, label=name, elinewidth=0.75, capsize=2, color = fgc)
 
 
