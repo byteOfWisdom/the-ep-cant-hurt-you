@@ -176,6 +176,7 @@ def collate(start, count, name):
     plt.vlines(fg, 0.9, max(amps), label="$f_\\text{g, " + name + "}$" if name != "" else "$f_g$", color = fgc, linestyle="--")
     plt.vlines(ft, 0.9, max(amps), label="$f_\\text{t, " + name + "}$" if name != "" else "$f_t$", color = next(colors), linestyle="--")
 
+    plt.xlim(10, 1e7)
     plt.errorbar(freqs, amps, fmt=" ", yerr=damps, xerr=dfreqs, label=name, elinewidth=0.75, capsize=2, color = fgc)
 
 
@@ -192,5 +193,6 @@ if __name__ == "__main__":
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
     plt.legend(loc="lower left")
+    plt.tight_layout()
 
     plt.show()

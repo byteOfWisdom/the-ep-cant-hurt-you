@@ -21,6 +21,8 @@ def load_voltages(fname):
     v, vstep, _ = load_csv(fname)
     cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
     v_amp = v * vstep * cal_factor
+    plt.xlim(- 10 * vstep, 10 * vstep)
+    plt.ylim(- 10 * vstep, 10 * vstep)
     return list(v_amp)
 
 
@@ -48,7 +50,7 @@ def plot_xy(xdata, ydata, y_scale):
 #    cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
 #    x_amp = x * x_vstep * cal_factor
 #    y_amp = y * y_vstep * cal_factor * y_scale
-    default = False
+    default = True
     if default:
         plt.scatter(xdata, np.array(ydata) * y_scale, marker=".", s =0.5)
     else:
@@ -59,8 +61,9 @@ def plot_xy(xdata, ydata, y_scale):
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
-    plt.show()
-    #plt.savefig(argv[1] + ".pdf")
+    plt.gca().set_aspect('equal', adjustable='box')
+    #plt.show()
+    plt.savefig(argv[1] + ".pdf")
 
 
 if __name__ == "__main__":
