@@ -43,6 +43,9 @@ def plot_single(fname, fout):
     time = np.arange(0, len(data)) * tstep
     unit, unit_value = find_unit(tstep)
     amplitude = data * vstep * cal_factor
+    if dn != 0.0:
+        amplitude = denoise(amplitude, dn)
+
     scaled_time = time * unit_value
     plt.plot(scaled_time, amplitude)
     plt.xlabel(unit)
@@ -61,6 +64,7 @@ def plot_single(fname, fout):
         plt.show()
 
 def plot_dual(fname1, fname2, fout):
+    global dn
     data1, vstep1, tstep1, offset_1 = load_csv(fname1)
     data2, vstep2, tstep2, offset_2 = load_csv(fname2)
     cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
@@ -68,6 +72,10 @@ def plot_dual(fname1, fname2, fout):
     unit, unit_value = find_unit(tstep1)
     amplitude1 = data1 * vstep1 * cal_factor
     amplitude2 = data2 * vstep2 * cal_factor
+    if dn != 0.0:
+        amplitude1 = denoise(amplitude1, dn)
+        amplitude2 = denoise(amplitude2, dn)
+
     scaled_time = time * unit_value
 
     fig, ax1 = plt.subplots()
@@ -114,12 +122,14 @@ def pad(n):
 
 
 if __name__ == "__main__":
+    global dn
     path = argv[1][:-4]
     num = int(argv[1][-4:])
 
     fout =  argv[2] if len(argv) > 2 and argv[2][-4:] == ".pdf" else "/dev/zero"
+    dn = float(argv[3]) if len(argv) > 3 else 0.0
 
     if len(glob(argv[1] + "/*.CSV")) > 1:
         plot_dual(argv[1] + f"/A{pad(num)}CH1.CSV", argv[1] + f"/A{pad(num)}CH2.CSV", fout)
     else:
-        plot_single(argv[1] + f"/A{pad(num)}CH1.CSV", fout)
+        plot_single(glob(argv[1] + "/*.CSV")[0], fout)

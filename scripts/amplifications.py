@@ -60,13 +60,14 @@ def get_SI_values(fname):
     amplitude = data * vstep * cal_factor
     scaled_time = time * unit_value
     dt = scaled_time[1] - scaled_time[0]
-    dv = 2 * vstep * cal_factor
+    dv = 4 * vstep * cal_factor
     return scaled_time, amplitude, dt, dv
 
 
 def denoise(data, emphasis = 0.1):
     famp = np.fft.fft(data)
-    famp[np.abs(famp) < emphasis * max(np.abs(famp))] = 0.0
+    cutoff = sorted(famp)[int(1.0 - emphasis):]
+    famp[np.abs(famp) < cutoff] = 0.0
     return np.real(np.fft.ifft(famp))
 
 
@@ -113,10 +114,10 @@ def collate(start, count, name):
     path = start[:-4]
     start_num = int(start[-4:])
 
-    amps = []
-    damps = []
-    freqs = []
-    dfreqs = []
+    amps = np.zeros(count)
+    damps = np.zeros(count)
+    freqs = np.zeros(count)
+    dfreqs = np.zeros(count)
     print(name)
 
     for i in range(start_num, start_num + count):
@@ -125,30 +126,35 @@ def collate(start, count, name):
 
 
         f, v, u1, u2 = extract_data(f_ch1, f_ch2)
-        freqs.append(f.value)
-        dfreqs.append(f.error)
-        amps.append(v.value)
-        damps.append(v.error)
-        print(r"$ " + tex(u1) + "$&$" + tex(u2) + "$&$" + tex(v) + "$&$" + tex(f) + r"$\\")
+        freqs[i - start_num] = f.value
+        dfreqs[i - start_num] = f.error
+        amps[i - start_num] = v.value
+        damps[i - start_num] = v.error
+        #print(r"$ " + tex(u1) + "$&$" + tex(u2) + "$&$" + tex(v) + "$&$" + tex(f) + r"$\\")
 
+
+    # ensure frequencies vaguely in ascending order
+    order = freqs.argsort()
+    freqs = freqs[order]
+    dfreqs = dfreqs[order]
+    amps = amps[order]
+    damps = damps[order]
 
     # find ft und fg
     fg, ft = 0, 0
     dfg, dft = 0, 0
-    for i in range(len(amps)):
-        if amps[i] < amps[0] / np.sqrt(2):
-            fg = 0.5 * (freqs[i] + freqs[i - 1])
-            dfg = 0.5 * (freqs[i] - freqs[i - 1])
-            break
+    i = np.where(freqs == freqs[amps <= amps[0] / np.sqrt(2)][0])[0][0]
+    fg = 0.5 * (freqs[i] + freqs[i - 1])
+    dfg = 0.5 * (freqs[i] - freqs[i - 1])
 
-    for i in range(len(amps)):
-        if amps[i] < 1:
-            ft = 0.5 * (freqs[i] + freqs[i - 1])
-            dft = 0.5 * (freqs[i] - freqs[i - 1])
-            break
+
     if min(amps) > 1:
         ft = freqs[-1]
         dft = 0.5 * (freqs[-1] - freqs[-2])
+    else:
+        i = np.where(freqs == freqs[amps <= 1.0][0])[0][0]
+        ft = 0.5 * (freqs[i] + freqs[i - 1])
+        dft = 0.5 * (freqs[i] - freqs[i - 1])
 
     dft = max(dft, dfreqs[-1])
 
@@ -166,26 +172,25 @@ def collate(start, count, name):
         print(f"verhältniss trans = {ev(ft, dft) / ref_ft}")
 
     fgc = next(colors)
-    plt.hlines(amps[0] / np.sqrt(2), 0, max(freqs) * 1.1, color=fgc, linestyle = "--")
-    plt.vlines(fg, 0.9, max(amps), label="$f_\\text{g, " + name + "}$", color = fgc, linestyle="--")
-    plt.vlines(ft, 0.9, max(amps), label="$f_\\text{t, " + name + "}$", color = next(colors), linestyle="--")
+    plt.hlines(amps[0] / np.sqrt(2), min(freqs), max(freqs) * 1.1, color=fgc, linestyle = "--")
+    plt.vlines(fg, 0.9, max(amps), label="$f_\\text{g, " + name + "}$" if name != "" else "$f_g$", color = fgc, linestyle="--")
+    plt.vlines(ft, 0.9, max(amps), label="$f_\\text{t, " + name + "}$" if name != "" else "$f_t$", color = next(colors), linestyle="--")
 
     plt.errorbar(freqs, amps, fmt=" ", yerr=damps, xerr=dfreqs, label=name, elinewidth=0.75, capsize=2, color = fgc)
 
 
 if __name__ == "__main__":
-    collate(argv[1], int(argv[2]), "ohne Kaskode")
+    collate(argv[1], int(argv[2]), "ohne Kaskode" if len(argv) > 3 else "")
     if len(argv) > 3:
-        collate(argv[3], int(argv[4]), "mit Kaskode")
+        collate(argv[3], int(argv[4]), "mit Kaskode" if len(argv) > 3 else "")
 
     plt.xlabel("Frequenz [Hz]")
     plt.ylabel("Verstärkung")
+    plt.loglog()
     plt.grid()
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
-    if len(argv) > 3:
-        plt.legend(loc="lower left")
+    plt.legend(loc="lower left")
 
-    plt.loglog()
     plt.show()
