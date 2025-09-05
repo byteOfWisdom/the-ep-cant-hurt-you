@@ -1,0 +1,30 @@
+0000 -> schalter offen, 3.16V in
+0001 -> " schalter zu
+0002 bis 0004 -> steigungen
+0005 bis 0007 -> steigungne mit transistor
+0008 -> 3V "sinus" ausgang
+0009 -> 4.4 "sinus" augang
+0010 -> 2.4V "
+0011 -> 2.6V, Bauteile gewechselt für höhere frequenzen
+0012 -> 7.36V "
+0013 -> 7.36V, keine begrenzung
+0014 -> LF bauteile, 3.13V, keine begrenzung
+0015 -> " 7.14V
+0016 -> HF bauteile, 7.14V, keine Begrenzung
+0017 -> " 3.56V
+
+0018 -> HF, mit begrenzung, mit poti, voll zugedreht, 3.56V
+0019 -> " fast ganz auf
+0020 -> miniamle frequenz (2.6V)
+0021 -> maximale frequenz (15.7V)
+0022 -> mit poti (gegen asymmetrie, 3.14V)
+0023 -> mit poit (gegen asymmetrie, 15.7V)
+
+Frequenzgang messreihe
+0024 -> 2.1V
+0025 -> 4.0V
+0026 -> 8.1V
+0027 -> 15.7V
+0028 -> 11.1V
+0029 -> 6.0V
+0030 -> 3.0V
