@@ -29,6 +29,7 @@ Frequenzgang messreihe
 0029 -> 6.0V
 0030 -> 3.0V
 
+AB HIER FÜR ALLE!!!
 0031  saegezahnsignal
 0032 -> eingangssaegezahn
 0033 -> saegazahn und logarithmierer
