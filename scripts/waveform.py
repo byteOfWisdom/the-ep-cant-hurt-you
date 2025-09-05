@@ -53,7 +53,7 @@ def plot_single(fname, fout):
     plt.xlim([scaled_time[0], scaled_time[-1]])
     #offset = - sum(amplitude) / len(amplitude)
     #print(f"average voltage = {sum(amplitude) / len(amplitude)}V")
-    plt.ylim([-4.5 * vstep - offset, 4.5 * vstep + offset])
+    plt.ylim([-4.5 * vstep - offset, 4.5 * vstep])
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
@@ -89,11 +89,11 @@ def plot_dual(fname1, fname2, fout):
     #famp2[np.abs(famp2) < 0.1 * max(np.abs(famp2))] = 0.0
     #amplitude2 = np.fft.ifft(famp2)
 
-    p1 = ax1.plot(scaled_time, amplitude1 + offset_1, label="CH1", color="tab:blue")
-    p2 = ax2.plot(scaled_time, amplitude2 + offset_2, label="CH2", color="tab:orange")
+    p1 = ax1.plot(scaled_time, amplitude1, label="CH1", color="tab:blue")
+    p2 = ax2.plot(scaled_time, amplitude2, label="CH2", color="tab:orange")
 
-    ax1.set_ylim(-4.5 * vstep1 - offset_1, 4.5 * vstep1 + offset_1)
-    ax2.set_ylim(-4.5 * vstep2 - offset_2, 4.5 * vstep2 + offset_2)
+    ax1.set_ylim(- vstep1 * cal_factor * 128 - offset_1, vstep1 * cal_factor * 128 - offset_1)
+    ax2.set_ylim(- vstep2 * cal_factor * 128 - offset_2, vstep2 * cal_factor * 128 - offset_2)
 
     ax1.set_xlabel(unit)
     ax1.set_ylabel("V", color="tab:blue")
