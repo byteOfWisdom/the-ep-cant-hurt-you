@@ -50,7 +50,7 @@ def plot_xy(xdata, ydata, y_scale):
 #    cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
 #    x_amp = x * x_vstep * cal_factor
 #    y_amp = y * y_vstep * cal_factor * y_scale
-    default = True
+    default = False
     if default:
         plt.scatter(xdata, np.array(ydata) * y_scale, marker=".", s =0.5)
     else:
@@ -62,8 +62,8 @@ def plot_xy(xdata, ydata, y_scale):
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
     plt.gca().set_aspect('equal', adjustable='box')
-    #plt.show()
-    plt.savefig(argv[1] + ".pdf")
+    plt.show()
+    #plt.savefig(argv[1] + ".pdf")
 
 
 if __name__ == "__main__":
