@@ -28,3 +28,11 @@ Frequenzgang messreihe
 0028 -> 11.1V
 0029 -> 6.0V
 0030 -> 3.0V
+
+0031  saegezahnsignal
+0032 -> eingangssaegezahn
+0033 -> saegazahn und logarithmierer
+0034 -> hinter sinusgenerator
+0035 - 0038 -> hinter sinus; XY
+0039 -> bandpass zeit
+0040 - 0042 -> bandpass XY
