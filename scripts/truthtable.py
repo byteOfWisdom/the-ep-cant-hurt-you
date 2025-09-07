@@ -4,8 +4,8 @@ func = None
 
 
 def parse_expr(expr):
-    vars = expr.replace("|", " ").replace("^", " ").replace("~", " ").split()
-    fstring = "func = lambda " + ", ".join(vars) + ": " + expr.replace("|", "|").replace("^", "&").replace("~", "!")
+    vars = expr.replace("|", " ").replace("^", " ").replace("~", " ").replace("(", " ").replace(")", " ").split()
+    fstring = "func = lambda " + ", ".join(vars) + ": int(" + expr.replace("|", " or ").replace("^", " and ").replace("~", " not ") + ")"
     exec("global func; " + fstring)
     return vars, func
 
@@ -26,7 +26,10 @@ if __name__ == "__main__":
     valuetable = gen_values(func, len(vars))
 
     if "-t" in args:
-        pass # print latex table
+        print("&".join(vars) + "&$=$\\\\\\hline\\\\")
+        for line in valuetable:
+            print("&".join(map(str, line)) + "\\\\")
+
     else:
         print(" ".join(vars) + " =")
         for line in valuetable:
