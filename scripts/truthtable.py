@@ -18,6 +18,20 @@ def gen_values(f, num_vars):
     return res
 
 
+def print_header(num_vars):
+    print(r"\begin{table}[H]")
+    print(r"\centering")
+    format_spec = "{" + "".join(("c" for _ in range(num_vars))) + "|c}"
+    print(r"\begin{tabular}" + format_spec)
+
+
+def print_footer():
+    print(r"\end{tabular}")
+    print(r"\caption{Eine Wahrheitstabelle!}")
+    print(r"\label{tab:truths}")
+    print(r"\end{table}")
+
+
 if __name__ == "__main__":
     expr = " ".join(filter(lambda x: not x.startswith("-"), argv[1:]))
     args = list(filter(lambda x: x.startswith("-"), argv[1:]))
@@ -26,9 +40,11 @@ if __name__ == "__main__":
     valuetable = gen_values(func, len(vars))
 
     if "-t" in args:
-        print("&".join(vars) + "&$=$\\\\\\hline\\\\")
+        print_header(len(vars))
+        print("&".join(vars) + "&$=$\\\\\\hline")
         for line in valuetable:
             print("&".join(map(str, line)) + "\\\\")
+        print_footer()
 
     else:
         print(" ".join(vars) + " =")
