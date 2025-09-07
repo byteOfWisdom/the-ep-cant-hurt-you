@@ -1,4 +1,5 @@
 #!python3
+from glob import glob
 import numpy as np
 from sys import argv
 from matplotlib import pyplot as plt
@@ -76,6 +77,11 @@ def extract_data(fname1, fname2):
     v = ev(get_Upp(u2, 0.99), dv2) / ev(get_Upp(u1, 0.99), dv1)
     return f, v, ev(get_Upp(u1), dv1), ev(get_Upp(u2), dv2)
 
+def extract_data_single(fname1):
+    t1, u1, dt1, dv1 = get_SI_values(fname1)
+    f = get_freq(t1, u1, 1)
+    return f, 0, ev(get_Upp(u1), dv1), 0
+
 
 def pad(n):
     s = str(n)
@@ -92,7 +98,10 @@ def say(start):
     f_ch1 = path + pad(start_num) + f"/A{pad(start_num)}CH1.CSV"
     f_ch2 = path + pad(start_num) + f"/A{pad(start_num)}CH2.CSV"
 
-    f, v, upp1, upp2 = extract_data(f_ch1, f_ch2)
+    if len(glob(path + "*.CSV")) < 2:
+        f, v, upp1, upp2 = extract_data_single(f_ch1)
+    else:
+        f, v, upp1, upp2 = extract_data(f_ch1, f_ch2)
 
     print(f"estimated freq: f = {f} Hz")
     print(f"estimated amp: v = {v}")

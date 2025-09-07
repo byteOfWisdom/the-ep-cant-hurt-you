@@ -1,5 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from scipy.optimize import curve_fit
+from labtools.perror import ev, value, error
 from sys import argv
 
 
@@ -114,6 +116,59 @@ def kennlinie(f):
     show_or_save()
 
 
+def tex(v):
+    s = str(v)
+    if "^" in s:
+        s = s.replace("^", "^{")
+        s += "}"
+    s = s.replace("+-", r"\pm").replace("*", r"\cdot ")
+    return s
+
+
+def voltage_sin_gen():
+    us = np.array([2.1, 4.0, 8.1, 15.7, 11.1, 6.0, 3.0])
+    ts = np.array([15.5e-3 - 12.3e-3, 172e-6 - 130e-6, 90e-6 - 69e-6, 49e-6 - 34e-6, 53e-6 - 34e-6, 99e-6 - 69e-6, 245e-6 - 173e-6])
+    dts = np.array([1e-3, 2e-6, 2e-6, 2e-6, 2e-6, 2e-6, 2e-6])
+    fs = value(1 / ev(ts, dts))#np.array([32.5e1, 25.0e3, 43.7e3, 7.5e4, 5.0e4, 31.2e3, 12.5e3])
+    dfs = error(1 / ev(ts, dts))#np.array([2.5e1, 2.5e3, 6.3e3, 1.2e4, 1.2e4, 6.2e3, 2.5e3])
+    log_line = lambda x, a, b: np.exp(a * np.log(x) + b)
+    params, cov = curve_fit(log_line, us[1:], fs[1:], sigma=dfs[1:], maxfev=99999)
+    errs = np.sqrt(np.diag(cov))
+    print(f"a={str(ev(params[0], errs[0]))}")
+    print(f"b={str(ev(params[1], errs[1]))}")
+
+    for i in range(len(us)):
+        print(f"${tex(ev(us[i], 0.1))}$ & ${tex(ev(ts[i], dts[i]))}$ & ${tex(ev(fs[i], dfs[i]))}$ \\\\")
+
+    plt.errorbar(us[1:], fs[1:], fmt=" ", yerr=dfs[1:], xerr=dts[1:], label="", elinewidth=0.75, capsize=2)
+    plt.plot(np.linspace(min(us), max(us), 1000), log_line(np.linspace(min(us), max(us), 1000), *params))
+    plt.loglog()
+    plt.xlabel("Spannung [V]")
+    plt.ylabel("Frequenz [Hz]")
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    show_or_save()
+
+
+def bandpass_expected():
+    x = np.exp(np.linspace(np.log(1), np.log(1e3), 10000))
+    varsin = lambda x, f: np.sin(x * f(x))
+    lin = lambda x: 1 * x
+    f0 = 3e1
+    bandpass = lambda f: f * f0 / (f**2 + f0**2)
+
+    plt.semilogx()
+#    plt.plot(x, bandpass(lin(x)), label="Bandpass Erwartung")
+    plt.plot(x, varsin(x, lin) * bandpass(lin(x)))
+    plt.ylabel("Oszilloskop Y-Achse U [V], normiert")
+    plt.xlabel("Oszilloskop X-Achse U [V] ~ f [Hz] (jeweils logarithmisch)")
+    plt.grid(which="major")
+    plt.grid(which="minor", linestyle=":", linewidth=0.5)
+    plt.gca().minorticks_on()
+    plt.show()
+
+
 def kennlinie_a():
     kennlinie(lambda x: x / 100)
 
@@ -136,3 +191,7 @@ if __name__ == "__main__":
         kennlinie_b()
     elif argv[1] == "h":
         opamp_noninverting()
+    elif argv[1] == "i":
+        voltage_sin_gen()
+    elif argv[1] == "j":
+        bandpass_expected()
