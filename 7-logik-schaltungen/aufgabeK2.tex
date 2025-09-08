@@ -1,0 +1,35 @@
+\documentclass{standalone}
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\LARGE]
+\draw (1.25,0.75) to[D] (-0.5,0.75);
+\draw (1.25,0) to[D] (-0.5,0);
+\draw (4.25,1) to[european resistor] (4.25,2.75);
+\draw (3.25,0) to[european resistor] (3.25,-2);
+\draw (1.25,0) to[european resistor] (3.25,0);
+\draw (4.25,-1) to[Tnpn, transistors/scale=1.19] (4.25,1);
+\draw (-0.5,0) to[short, -o] (-2,0) ;
+\draw (-0.5,0.75) to[short, -o] (-2,0.75) ;
+\draw (1.25,0.75) to[short] (1.25,0);
+\draw (4.25,0.75) to[short, -o] (5.25,0.75) ;
+\draw (3.25,-2) to (5,-2) node[ground]{};
+\node at (4.25,-2) [circ] {};
+\node at (1.25,0) [circ] {};
+\node [font=\normalsize] at (5.75,0.75) {$U_Q$};
+\node [font=\normalsize] at (-2.5,0.75) {$E_1$};
+\node [font=\normalsize] at (-2.5,0) {$E_2$};
+\node [font=\normalsize] at (2.25,0.5) {$1k\Omega$};
+\node [font=\normalsize] at (2,1.75) {$2.2k\Omega$};
+\node [font=\normalsize] at (3.75,-1) {$1k\Omega$};
+\draw (4.25,-1) to[short] (4.25,-2);
+\draw (1.25,2.75) to[short, -o] (6,2.75) ;
+\node [font=\normalsize] at (6.75,2.75) {+5V};
+\draw (1.25,0.75) to[european resistor] (1.25,2.75);
+\node at (4.25,2.75) [circ] {};
+\node [font=\normalsize] at (5,1.75) {$1k\Omega$};
+\node at (4.25,0.75) [circ] {};
+\node at (1.25,0.75) [circ] {};
+\node at (3.25,0) [circ] {};
+\end{circuitikz}
+\end{document}

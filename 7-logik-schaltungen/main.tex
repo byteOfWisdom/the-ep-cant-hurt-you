@@ -1,0 +1,552 @@
+\input{../template}
+
+\title{Versuch 7: Logische Schaltungen}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\disclaimer
+
+\def\NOT#1{\overline{#1}}
+\def\AND{\cdot}
+\def\OR{+}
+%\def\NAND{\bar{\wedge}}
+
+
+\chapter{Einleitung}
+
+\chapter{Theorie}
+
+\chapter{Voraufgaben}
+
+\section{A}
+\textit{Wieviel verschiedene Schaltfunktionen von n Eingangsvariablen gibt es, wenn man nur Schaltfunktionen ohne Redundanzen betrachtet?}\\
+
+Bei $n$ Eingangsvariablen, gibt es $2^n$ mögliche Eingangswerte. Da wir nach $B$ abbilden, gibt es pro Eingangswert je zwei mögliche Ausgangswerte. Da die Schaltfunktion die Abbildung aller möglichen Eingangswerte nach $B$ ist, ist jeder neue Satz an Ergebnissen eine eigene Schaltfunktion. Diese Liste an Ergebnissen kann als $2^n$ Stellige Binärzahl betrachtet werden. Somit gibt es $2^{2^n}$ Schaltfunktionen für $n$ Eingangsvariablen.
+
+
+%----------------------------------------------
+\section{B}
+\textit{Prüfen Sie die obigen Ausdrücke anhand einer Funktionstafel nach.}\\
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c}
+a&1&$=$\\\hline
+0&1&1\\
+1&1&1\\
+\end{tabular}
+\caption{z.z.: $a \OR 1 = 1$}
+\label{tab:truthsB1}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c}
+a&0&$=$\\\hline
+0&0&0\\
+1&0&1\\
+\end{tabular}
+\caption{z.z.: $a \OR 0 = a$}
+\label{tab:truthsB2}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c}
+a&1&$=$\\\hline
+0&1&0\\
+1&1&1\\
+\end{tabular}
+\caption{z.z.: $a \AND 1 = a$}
+\label{tab:truthsB3}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c}
+a&0&$=$\\\hline
+0&0&0\\
+1&0&0\\
+\end{tabular}
+\caption{z.z.: $a \AND 0 = 0$}
+\label{tab:truthsB4}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c}
+a&$=$\\\hline
+0&0\\
+1&0\\
+\end{tabular}
+\caption{z.z.: $a \AND \NOT{a} = 0$}
+\label{tab:truthsB5}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c}
+a&$=$\\\hline
+0&1\\
+1&1\\
+\end{tabular}
+\caption{z.z.: $a \OR \NOT{a} = 1$}
+\label{tab:truthsB6}
+\end{table}
+
+
+
+%----------------------------------------------
+\section{C}
+\textit{Prüfen Sie das Distributivgesetz und die Sätze von DeMORGAN mit einer Funktionstafel nach.}\\
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c}
+a&b&$=$\\\hline
+0&0&1\\
+0&1&1\\
+1&0&1\\
+1&1&0\\
+\end{tabular}
+\caption{Eine Wahrheitstabelle!}
+\label{tab:truths}
+\end{table}
+
+
+%----------------------------------------------
+\section{D}
+\textit{Wie lautet der BOOLEsche Ausdruck für die
+EXKLUSIV-ODER-Funktion aus Beispiel 1? Formen
+Sie den Ausdruck um, bis nur noch die Schaltfunktion $\overline{a \cdot b}$ vorkommt}\\
+
+
+XOR ist $(a \AND \NOT{b}) \OR (\NOT{a} \AND b)$
+
+Zunächst einige Vorüberlegungen, wie sich UND und OR und NOT über NAND ausdrücken lassen:
+\begin{align}
+    x \OR y &= \NOT{(\NOT{x} \AND \NOT{y})} \label{eq:OR_to_NAND}\\
+    \NOT{x} &= \NOT{x \AND x} \label{eq:NOT_to_NAND}\\
+    x \AND y &= \NOT{\NOT{x \AND y}} = \NOT{\NOT{(x \AND y)} \AND \NOT{(x \AND y)}} \label{eq:AND_to_NAND}
+\end{align}
+
+Mit diesen darstellungen ist nun nur noch stumpfes Einsetzen nötig.
+\begin{align}
+    (a \AND \NOT{b}) \OR (\NOT{a} \AND b)
+    = \NOT{\NOT{(a \AND \NOT{b})} \AND \NOT{(\NOT{a} \AND b)}}
+\end{align}
+Akzeptiert man, dass NOT sich durch NAND als Schaltkreis trivial bauen\footnote{Signal and beide Eingänge eines NAND Gatters} lässt und somit in der NAND-Form nichts dagegen spricht NOT zu nutzen, so ist man num fertig. Besteht man darauf, wirklich \textit{nur} NAND Operatrionen zu nutzen, muss man noch ein wenig mehr einsetzen (auch wenn es schwachsinnig ist):
+
+\begin{align}
+    \NOT{\NOT{(a \AND \NOT{b})} \AND \NOT{(\NOT{a} \AND b)}}
+    = \NOT{\NOT{(a \AND \NOT{(b \AND b)})} \AND \NOT{(\NOT{a \AND a} \AND b)}}
+\end{align}
+
+
+%----------------------------------------------
+\section{E}
+\textit{Schreiben Sie alle Minterme von 3 Eingangsvariablen auf. Vergleichen Sie die Anzahl der verschiedenen Minterme mit der Zeilenzahl einer Funktionstafel für 3 Eingangsvariable. Wie wird man die Minterme sinnvollerweise nummerieren?}\\
+
+Die Miniterme sind:
+\begin{align*}
+    \NOT{a} \AND \NOT{b} \AND \NOT{c} \\
+    \NOT{a} \AND \NOT{b} \AND c \\
+    \NOT{a} \AND b \AND \NOT{c} \\
+    \NOT{a} \AND b \AND c \\
+    a \AND \NOT{b} \AND \NOT{c} \\
+    a \AND \NOT{b} \AND c \\
+    a \AND b \AND \NOT{c} \\
+    a \AND b \AND c \\
+\end{align*}
+
+Was auch die Sinnvolle Numerierung ist, da dies dann analog zu der kanonische Darstellung von Binärzahlen ist (wobei 0 einer negierten Variable und 1 einer nicht negierten entspricht).
+
+%------------------------------------------------
+\section{F}
+\textit{Stellen Sie eine Funktionstafel (Eingänge a, b, Ausgänge Q1, Q2) dieses Flip-Flops auf. Starten Sie dazu mit beliebigen Zuständen für Q1 und Q2 und verfolgen Sie, wie sich die Ausgänge durch die Rückkopplung ändern. Für welchen Eingangszustand a, b gibt es mehrere Möglichkeiten für die Ausgänge?}\\
+
+
+Sei initial Q1 auf $A1$ und Q2 auf $\NOT{A1}$ gesetzt:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cc|c|c}
+b&a&Q1&Q2\\\hline
+0&0&1&1\\
+0&1&1&0\\
+1&0&0&1\\
+1&1&$A1$&$\NOT{A1}$\\
+\end{tabular}
+\caption{Fall 1}
+\label{tab:truthsF1}
+\end{table}
+
+Im Falle von $a \ne b$ kann der Zustand von Q1 und Q2 eindeutig bestimmt werden (siehe Tabelle) und hängt nicht vom Initialzustand ab. Ist $a=b=1$, dann findet keine Rückkopplung statt, da der resultierende Zustand immer stabil ist und genau dem Anfangszustand entspricht.
+
+Im Fall $a=b=0$ werden Q1 und Q2 beide 1, dieser Zustand ist aber nicht stabil bei $a=b=1$, in diesem Falle ist der Zustand nicht eindeutig definiert und würde in der Realität enweder oszillieren oder einen zufälligen Zustand annehmen.
+
+Es gibt also für $a\ne b$ jeweils nur einen Zustand, während $a=b$ jeweils zwei mögliche Zustände hat.
+
+
+%------------------------------------------------
+\section{G}
+\textit{Zeichnen Sie ein 4-Bit-Schieberegister auf, das seriell geladen wird.}
+
+
+\begin{figure}[H]
+\centering
+\resizebox{0.75\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw  (1.25,2.5) rectangle (3.25,-0.25);
+\draw (-9.25,1.75) to[short] (-7.75,1.75);
+\draw (0.5,0.5) to[short] (1.25,0.5);
+\draw (3.25,1.75) to[short] (5.75,1.75);
+\draw (4.5,1.75) to[short] (4.5,3);
+\draw (4,0.5) to[short, -o] (3.25,0.5) ;
+\node at (4.5,1.75) [circ] {};
+\node [font=\normalsize] at (1.5,1.75) {D};
+\node [font=\normalsize] at (1.75,0.5) {CLK};
+\node [font=\normalsize] at (3,1.75) {Q};
+\node [font=\normalsize] at (3,0.5) {R};
+\draw (0.5,-1.25) to[short] (0.5,0.5);
+\draw (4,0.5) to[short] (4,-3);
+\node [font=\normalsize] at (4.5,3.25) {B2};
+\draw  (5.75,2.5) rectangle (7.75,-0.25);
+\draw (5,0.5) to[short] (5.75,0.5);
+\draw (7.75,1.75) to[short] (9,1.75);
+\draw (9,1.75) to[short] (9,3);
+\draw (8.5,0.5) to[short, -o] (7.75,0.5) ;
+\node [font=\normalsize] at (6,1.75) {D};
+\node [font=\normalsize] at (6.25,0.5) {CLK};
+\node [font=\normalsize] at (7.5,1.75) {Q};
+\node [font=\normalsize] at (7.5,0.5) {R};
+\draw (5,-1.25) to[short] (5,0.5);
+\draw (8.5,0.5) to[short] (8.5,-3);
+\node [font=\normalsize] at (9,3.25) {B3};
+\draw  (-3.25,2.5) rectangle (-1.25,-0.25);
+\draw (-4,0.5) to[short] (-3.25,0.5);
+\draw (-1.25,1.75) to[short] (1.25,1.75);
+\draw (0,1.75) to[short] (0,3);
+\draw (-0.5,0.5) to[short, -o] (-1.25,0.5) ;
+\node at (0,1.75) [circ] {};
+\node [font=\normalsize] at (-3,1.75) {D};
+\node [font=\normalsize] at (-2.75,0.5) {CLK};
+\node [font=\normalsize] at (-1.5,1.75) {Q};
+\node [font=\normalsize] at (-1.5,0.5) {R};
+\draw (-4,-1.25) to[short] (-4,0.5);
+\draw (-0.5,0.5) to[short] (-0.5,-3);
+\node [font=\normalsize] at (0,3.25) {B1};
+\draw  (-7.75,2.5) rectangle (-5.75,-0.25);
+\draw (-8.5,0.5) to[short] (-7.75,0.5);
+\draw (-5.75,1.75) to[short] (-3.25,1.75);
+\draw (-4.5,1.75) to[short] (-4.5,3);
+\draw (-5,0.5) to[short, -o] (-5.75,0.5) ;
+\node at (-4.5,1.75) [circ] {};
+\node [font=\normalsize] at (-7.5,1.75) {D};
+\node [font=\normalsize] at (-7.25,0.5) {CLK};
+\node [font=\normalsize] at (-6,1.75) {Q};
+\node [font=\normalsize] at (-6,0.5) {R};
+\draw (-8.5,-1.25) to[short] (-8.5,0.5);
+\draw (-5,0.5) to[short] (-5,-3);
+\node [font=\normalsize] at (-4.5,3.25) {B0};
+\node [font=\normalsize] at (-9.75,1.75) {$D_{in}$};
+\draw (-9.5,-1.25) to[short] (5,-1.25);
+\draw (-9.5,-3) to[short] (8.5,-3);
+\node [font=\normalsize] at (-10,-1.25) {$CLK$};
+\node [font=\normalsize] at (-9.75,-3) {$R$};
+\end{circuitikz}
+}%
+\caption{Serielles Shift-Register mit 4 Bit}
+\label{fig:serialShiftReg}
+\end{figure}
+
+%----------------------------------------------
+\section{H}
+\textit{Entwerfen Sie ein 4-Bit-Schieberegister, das parallel geladen werden kann (d. h. alle Bits gleichzeitig, wenn eine Steuerleitung “LOAD” auf 1 ist). Benutzen Sie dazu die unten abgebildeten kombinierten Schaltelemente, die auch auf dem Schaltbrett zur Verfügung stehen.}\\
+
+Es soll bei jedem Bit, der Eingang D immer entweder Q des vorherigen Bits oder der parallele Eingang $D_i$ sein. Formal ist dies $(Q_{n-1} \AND \NOT{\mathrm{LOAD}}) \OR (D_i \AND \mathrm{LOAD})$. Es wird als ein negiertes LOAD Signal benötigt, welches hier einfach mittels einen NAND Gatters bereitgestellt wird.
+
+Ein Schaltplan kann dann wie folgt aussehen:
+
+\begin{figure}[H]
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\node [font=\normalsize] at (-5,6.25) {Load};
+\node [font=\normalsize] at (3.25,-0.5) {CLK};
+\node [font=\normalsize] at (3.25,-1) {Reset};
+\draw (-0.5,5.25) to[short] (-0.25,5.25);
+\draw (-0.5,4.75) to[short] (-0.25,4.75);
+\draw (-0.25,5.25) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (1.5,5);
+\draw (-0.5,4) to[short] (-0.25,4);
+\draw (-0.5,3.5) to[short] (-0.25,3.5);
+\draw (-0.25,4) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (1.5,3.75);
+\draw (1.5,4.25) to[short] (1.75,4.25);
+\draw (1.5,3.75) to[short] (1.75,3.75);
+\draw (1.75,4.25) node[ieeestd or port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (3.5,4);
+\draw (1.5,5) to[short] (1.5,4.25);
+\draw (3.5,4) to[short] (3.5,2);
+\draw (-0.5,4.75) to[short] (-1,4.75);
+\draw (-1,4.75) to[short] (-1,6.25);
+\draw (-0.5,5.25) to[short] (-0.5,5.75);
+\draw (-0.5,4) to[short] (-1.5,4);
+\draw (-1.5,4) to[short] (-1.5,7.25);
+\node at (-1,6.25) [circ] {};
+\node at (-1.5,7.25) [circ] {};
+\draw  (5.75,2.75) rectangle (7.75,0);
+\draw (5,0.75) to[short] (5.75,0.75);
+\draw (8.25,0.75) to[short, -o] (7.75,0.75) ;
+\node [font=\normalsize] at (6,2) {D};
+\node [font=\normalsize] at (6.25,0.75) {CLK};
+\node [font=\normalsize] at (7.5,2) {Q};
+\node [font=\normalsize] at (7.5,0.75) {R};
+\draw (3.5,2) to[short] (5.75,2);
+\draw (7.75,2) to[short] (8.25,2);
+\draw (8.25,-0.5) to[short] (8.25,0.75);
+\draw (5,-1) to[short] (5,0.75);
+\node at (5,-1) [circ] {};
+\node at (8.25,-0.5) [circ] {};
+\draw (5.25,5.25) to[short] (5.5,5.25);
+\draw (5.25,4.75) to[short] (5.5,4.75);
+\draw (5.5,5.25) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (7.25,5);
+\draw (5.25,4) to[short] (5.5,4);
+\draw (5.25,3.5) to[short] (5.5,3.5);
+\draw (5.5,4) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (7.25,3.75);
+\draw (7.25,4.25) to[short] (7.5,4.25);
+\draw (7.25,3.75) to[short] (7.5,3.75);
+\draw (7.5,4.25) node[ieeestd or port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (9.25,4);
+\draw (7.25,5) to[short] (7.25,4.25);
+\draw (8.25,3) to[short] (5.25,3);
+\draw (5.25,3.5) to[short] (5.25,3);
+\draw (8.25,2) to[short] (8.25,3);
+\draw (9.25,4) to[short] (9.25,2);
+\draw (5.25,4.75) to[short] (4.75,4.75);
+\draw (4.75,4.75) to[short] (4.75,6.25);
+\draw (5.25,5.25) to[short] (5.25,5.75);
+\draw (5.25,4) to[short] (4.25,4);
+\draw (4.25,4) to[short] (4.25,7.25);
+\node at (4.75,6.25) [circ] {};
+\node at (4.25,7.25) [circ] {};
+\draw  (11.5,2.75) rectangle (13.5,0);
+\draw (10.75,0.75) to[short] (11.5,0.75);
+\draw (14,0.75) to[short, -o] (13.5,0.75) ;
+\node [font=\normalsize] at (11.75,2) {D};
+\node [font=\normalsize] at (12,0.75) {CLK};
+\node [font=\normalsize] at (13.25,2) {Q};
+\node [font=\normalsize] at (13.25,0.75) {R};
+\draw (9.25,2) to[short] (11.5,2);
+\draw (13.5,2) to[short] (14,2);
+\draw (14,-0.5) to[short] (14,0.75);
+\draw (10.75,-1) to[short] (10.75,0.75);
+\node at (10.75,-1) [circ] {};
+\node at (14,-0.5) [circ] {};
+\draw (11,5.25) to[short] (11.25,5.25);
+\draw (11,4.75) to[short] (11.25,4.75);
+\draw (11.25,5.25) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (13,5);
+\draw (11,4) to[short] (11.25,4);
+\draw (11,3.5) to[short] (11.25,3.5);
+\draw (11.25,4) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (13,3.75);
+\draw (13,4.25) to[short] (13.25,4.25);
+\draw (13,3.75) to[short] (13.25,3.75);
+\draw (13.25,4.25) node[ieeestd or port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (15,4);
+\draw (13,5) to[short] (13,4.25);
+\draw (14,3) to[short] (11,3);
+\draw (11,3.5) to[short] (11,3);
+\draw (14,2) to[short] (14,3);
+\draw (15,4) to[short] (15,2);
+\draw (11,4.75) to[short] (10.5,4.75);
+\draw (10.5,4.75) to[short] (10.5,6.25);
+\draw (11,5.25) to[short] (11,5.75);
+\draw (11,4) to[short] (10,4);
+\draw (10,4) to[short] (10,7.25);
+\node at (10.5,6.25) [circ] {};
+\node at (10,7.25) [circ] {};
+\draw  (17.25,2.75) rectangle (19.25,0);
+\draw (16.5,0.75) to[short] (17.25,0.75);
+\draw (19.75,0.75) to[short, -o] (19.25,0.75) ;
+\node [font=\normalsize] at (17.5,2) {D};
+\node [font=\normalsize] at (17.75,0.75) {CLK};
+\node [font=\normalsize] at (19,2) {Q};
+\node [font=\normalsize] at (19,0.75) {R};
+\draw (15,2) to[short] (17.25,2);
+\draw (19.25,2) to[short] (19.75,2);
+\draw (19.75,-0.5) to[short] (19.75,0.75);
+\draw (16.5,-1) to[short] (16.5,0.75);
+\draw (16.75,5.25) to[short] (17,5.25);
+\draw (16.75,4.75) to[short] (17,4.75);
+\draw (17,5.25) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (18.75,5);
+\draw (16.75,4) to[short] (17,4);
+\draw (16.75,3.5) to[short] (17,3.5);
+\draw (17,4) node[ieeestd and port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (18.75,3.75);
+\draw (18.75,4.25) to[short] (19,4.25);
+\draw (18.75,3.75) to[short] (19,3.75);
+\draw (19,4.25) node[ieeestd or port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (20.75,4);
+\draw (18.75,5) to[short] (18.75,4.25);
+\draw (19.75,3) to[short] (16.75,3);
+\draw (16.75,3.5) to[short] (16.75,3);
+\draw (19.75,2) to[short] (19.75,3);
+\draw (20.75,4) to[short] (20.75,2);
+\draw (16.75,4.75) to[short] (16.25,4.75);
+\draw (16.25,4.75) to[short] (16.25,6.25);
+\draw (16.75,5.25) to[short] (16.75,5.75);
+\draw (16.75,4) to[short] (15.75,4);
+\draw (15.75,4) to[short] (15.75,7.25);
+
+\draw (-3.5,7.5) to[short] (-3.25,7.5);
+\draw (-3.5,7) to[short] (-3.25,7);
+\draw (-3.25,7.5) node[ieeestd nand port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (-1.5,7.25);
+\draw (16.25,6.25) to[short] (-4.5,6.25);
+\draw (-3.5,7.5) to[short] (-3.5,6.25);
+\node at (-3.5,6.25) [circ] {};
+\node at (-3.5,7) [circ] {};
+\draw (-0.25,7.25) to[short] (-0.25,7.25);
+\draw (-1.5,7.25) to[short] (15.75,7.25);
+\draw (3.75,-1) to[short] (22.25,-1);
+\draw (3.75,-0.5) to[short] (25.5,-0.5);
+\node [font=\normalsize] at (-1,3.5) {$D_{in}$};
+\node [font=\normalsize] at (-0.5,6) {$D0$};
+\node [font=\normalsize] at (5.25,6) {$D1$};
+\node [font=\normalsize] at (11,6) {$D2$};
+\node [font=\normalsize] at (16.75,6) {$D3$};
+\draw  (23,2.75) rectangle (25,0);
+\draw (22.25,0.75) to[short] (23,0.75);
+\draw (25.5,0.75) to[short, -o] (25,0.75) ;
+\node [font=\normalsize] at (23.25,2) {D};
+\node [font=\normalsize] at (23.5,0.75) {CLK};
+\node [font=\normalsize] at (24.75,2) {Q};
+\node [font=\normalsize] at (24.75,0.75) {R};
+\draw (20.75,2) to[short] (23,2);
+\draw (25,2) to[short] (25.5,2);
+\draw (25.5,-0.5) to[short] (25.5,0.75);
+\draw (22.25,-1) to[short] (22.25,0.75);
+\node at (16.5,-1) [circ] {};
+\node at (19.75,-0.5) [circ] {};
+\draw (11.25,-2) to[short] (11.25,-2);
+\draw (19.75,2) to[short] (19.75,1.5);
+\node at (19.75,2) [circ] {};
+\node [font=\normalsize] at (19.75,1.25) {B2};
+\draw (14,2) to[short] (14,1.5);
+\node at (14,2) [circ] {};
+\node [font=\normalsize] at (14,1.25) {B1};
+\draw (8.25,2) to[short] (8.25,1.5);
+\node at (8.25,2) [circ] {};
+\node [font=\normalsize] at (8.25,1.25) {B0};
+\draw (25.5,2) to[short] (25.5,1.5);
+\node [font=\normalsize] at (25.5,1.25) {B3 / $Q_{out}$};
+\end{circuitikz}
+}%
+\caption{4 Bit Shift Register mit der Option zur parallelen Befüllung über D0 bis D3, wenn Load 1 ist, ansonsten Seriell über $D_{in}$.}
+\label{fig:shitRegisterParallel}
+\end{figure}
+
+Das Auslesen kann dann entweder parallel über B1 bis B4 oder Seriell über $Q_{out}$ erfolgen.
+
+%------------------------------------------------
+\section{I}
+\textit{Entwerfen Sie einen 4-Bit-Dualzähler, bei dem der Ausgang eines FFs jeweils den Takteingang des nächsten FF steuert. Tip: Verbinden Sie bei jedem Flipflop Q mit D.}\\
+
+\begin{figure}[H]
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw  (5.75,2.75) rectangle (7.75,0);
+\draw (5,0.75) to[short] (5.75,0.75);
+\draw (8.25,0.75) to[short, -o] (7.75,0.75) ;
+\node [font=\normalsize] at (6,2) {D};
+\node [font=\normalsize] at (6.25,0.75) {CLK};
+\node [font=\normalsize] at (7.5,2) {Q};
+\node [font=\normalsize] at (7.5,0.75) {R};
+\draw (7.75,2) to[short] (8.25,2);
+\draw (8.25,2) to[short] (8.25,1.5);
+\node at (8.25,2) [circ] {};
+\node [font=\normalsize] at (8.25,1.25) {B2};
+\node [font=\normalsize] at (6.75,2.5) {$\NOT{Q}$};
+\draw (7,2.75) to[short] (7,3.75);
+\draw (7,3.75) to[short] (5,3.75);
+\draw (5,3.75) to[short] (5,2);
+\draw (5,2) to[short] (5.75,2);
+\draw (8.25,2) to[short] (9,2);
+\draw (9,2) to[short] (9,0.75);
+\draw (9,0.75) to[short] (9.5,0.75);
+\draw  (10,2.75) rectangle (12,0);
+\draw (9.25,0.75) to[short] (10,0.75);
+\draw (12.5,0.75) to[short, -o] (12,0.75) ;
+\node [font=\normalsize] at (10.25,2) {D};
+\node [font=\normalsize] at (10.5,0.75) {CLK};
+\node [font=\normalsize] at (11.75,2) {Q};
+\node [font=\normalsize] at (11.75,0.75) {R};
+\draw (12,2) to[short] (12.5,2);
+\draw (12.5,2) to[short] (12.5,1.5);
+\node [font=\normalsize] at (12.5,1.25) {B3};
+\node [font=\normalsize] at (11,2.5) {$\NOT{Q}$};
+\draw (11.25,2.75) to[short] (11.25,3.75);
+\draw (11.25,3.75) to[short] (9.25,3.75);
+\draw (9.25,3.75) to[short] (9.25,2);
+\draw (9.25,2) to[short] (10,2);
+\draw  (1.25,2.75) rectangle (3.25,0);
+\draw (0.5,0.75) to[short] (1.25,0.75);
+\draw (3.75,0.75) to[short, -o] (3.25,0.75) ;
+\node [font=\normalsize] at (1.5,2) {D};
+\node [font=\normalsize] at (1.75,0.75) {CLK};
+\node [font=\normalsize] at (3,2) {Q};
+\node [font=\normalsize] at (3,0.75) {R};
+\draw (3.25,2) to[short] (3.75,2);
+\draw (3.75,2) to[short] (3.75,1.5);
+\node at (3.75,2) [circ] {};
+\node [font=\normalsize] at (3.75,1.25) {B1};
+\node [font=\normalsize] at (2.25,2.5) {$\NOT{Q}$};
+\draw (2.5,2.75) to[short] (2.5,3.75);
+\draw (2.5,3.75) to[short] (0.5,3.75);
+\draw (0.5,3.75) to[short] (0.5,2);
+\draw (0.5,2) to[short] (1.25,2);
+\draw (3.75,2) to[short] (4.5,2);
+\draw (4.5,2) to[short] (4.5,0.75);
+\draw (4.5,0.75) to[short] (5,0.75);
+\draw  (-3.25,2.75) rectangle (-1.25,0);
+\draw (-4,0.75) to[short] (-3.25,0.75);
+\draw (-0.75,0.75) to[short, -o] (-1.25,0.75) ;
+\node [font=\normalsize] at (-3,2) {D};
+\node [font=\normalsize] at (-2.75,0.75) {CLK};
+\node [font=\normalsize] at (-1.5,2) {Q};
+\node [font=\normalsize] at (-1.5,0.75) {R};
+\draw (-1.25,2) to[short] (-0.75,2);
+\draw (-0.75,2) to[short] (-0.75,1.5);
+\node at (-0.75,2) [circ] {};
+\node [font=\normalsize] at (-0.75,1.25) {B0};
+\node [font=\normalsize] at (-2.25,2.5) {$\NOT{Q}$};
+\draw (-2,2.75) to[short] (-2,3.75);
+\draw (-2,3.75) to[short] (-4,3.75);
+\draw (-4,3.75) to[short] (-4,2);
+\draw (-4,2) to[short] (-3.25,2);
+\draw (-0.75,2) to[short] (0,2);
+\draw (0,2) to[short] (0,0.75);
+\draw (0,0.75) to[short] (0.5,0.75);
+\draw (-0.75,0.75) to[short] (-0.75,-1.25);
+\draw (3.75,0.75) to[short] (3.75,-1.25);
+\draw (8.25,0.75) to[short] (8.25,-1.25);
+\draw (12.5,0.75) to[short] (12.5,-1.25);
+\draw (12.5,-1.25) to[short] (-4,-1.25);
+\node at (-0.75,-1.25) [circ] {};
+\node at (3.75,-1.25) [circ] {};
+\node at (8.25,-1.25) [circ] {};
+\node [font=\normalsize] at (-4.5,-1.25) {Reset};
+\node [font=\normalsize] at (-4.5,0.75) {In};
+\end{circuitikz}
+}%
+\caption{4 Bit Dualzähler}
+\label{fig:dualzähler}
+\end{figure}
+
+
+
+\chapter{Fazit}
+
+\chapter{Anhang}
+
+\end{document}

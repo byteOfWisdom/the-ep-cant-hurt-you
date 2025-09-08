@@ -4,8 +4,9 @@ func = None
 
 
 def parse_expr(expr):
-    vars = expr.replace("|", " ").replace("^", " ").replace("~", " ").replace("(", " ").replace(")", " ").split()
-    fstring = "func = lambda " + ", ".join(vars) + ": int(" + expr.replace("|", " or ").replace("^", " and ").replace("~", " not ") + ")"
+    vars = expr.replace("|", " ").replace("^", " ").replace("~", " ").replace("(", " ").replace(")", " ").replace("/", " ").split()
+    vars = sorted(list(set(vars)))
+    fstring = "func = lambda " + ", ".join(vars) + ": int(" + expr.replace("|", " or ").replace("^", " and ").replace("~", " not ").replace("/", " ^ ") + ")"
     exec("global func; " + fstring)
     return vars, func
 

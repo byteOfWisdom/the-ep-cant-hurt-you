@@ -1,0 +1,82 @@
+\documentclass{standalone}
+\usepackage{circuitikz}
+\begin{document}
+
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw (3.75,13.25) to[short] (4,13.25);
+\draw (3.75,12.75) to[short] (4,12.75);
+\draw (4,13.25) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (5.75,13);
+\draw (6.5,14) to[short] (6.75,14);
+\draw (6.5,13.5) to[short] (6.75,13.5);
+\draw (6.75,14) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (8.5,13.75);
+\draw (16.25,15.75) to[short] (16.5,15.75);
+\draw (16.25,15.25) to[short] (16.5,15.25);
+\draw (16.5,15.75) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (18.25,15.5);
+\draw (9.75,13.75) to[short] (10,13.75);
+\draw (9.75,13.25) to[short] (10,13.25);
+\draw (10,13.75) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (11.75,13.5);
+\draw (6.5,12.5) to[short] (6.75,12.5);
+\draw (6.5,12) to[short] (6.75,12);
+\draw (6.75,12.5) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (8.5,12.25);
+\draw (3.75,13.25) to[short, -o] (1.25,13.25) ;
+\draw (3.75,12.75) to[short, -o] (1.25,12.75) ;
+\node [font=\normalsize] at (1,13.25) {a};
+\node [font=\normalsize] at (1,12.75) {b};
+\draw (5.75,15.75) to[short] (16.25,15.75);
+\draw (5.75,15.75) to[short] (5.75,12.5);
+\draw (5.75,13.5) to[short] (6.5,13.5);
+\draw (6.5,12.5) to[short] (5.75,12.5);
+\node at (5.75,13.5) [circ] {};
+\draw (9.75,13.25) to[short] (9.75,12.25);
+\draw (8.5,12.25) to[short] (9.75,12.25);
+\draw (8.5,13.75) to[short] (9.75,13.75);
+\node [font=\normalsize] at (10.75,14.5) {a xor b = x};
+\node [font=\normalsize] at (1,11.25) {c'};
+\node at (5.75,13) [circ] {};
+\draw (6.5,12) to[short] (3.25,12);
+\draw (3.25,12) to[short] (3.25,12.75);
+\node at (3.25,12.75) [circ] {};
+\node at (3.25,13.25) [circ] {};
+\draw (3.25,13.25) to[short] (3.25,14);
+\draw (6.5,14) to[short] (3.25,14);
+\draw (13.5,13.5) to[short] (13.75,13.5);
+\draw (13.5,13) to[short] (13.75,13);
+\draw (13.75,13.5) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (15.5,13.25);
+\draw (16.25,14.25) to[short] (16.5,14.25);
+\draw (16.25,13.75) to[short] (16.5,13.75);
+\draw (16.5,14.25) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (18.25,14);
+\draw (19.5,14) to[short] (19.75,14);
+\draw (19.5,13.5) to[short] (19.75,13.5);
+\draw (19.75,14) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (21.5,13.75);
+\draw (16.25,12.75) to[short] (16.5,12.75);
+\draw (16.25,12.25) to[short] (16.5,12.25);
+\draw (16.5,12.75) node[ieeestd xor port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (18.25,12.5);
+\draw (15.5,13.75) to[short] (16.25,13.75);
+\draw (16.25,12.75) to[short] (15.5,12.75);
+\draw (19.5,13.5) to[short] (19.5,12.5);
+\draw (18.25,12.5) to[short] (19.5,12.5);
+\draw (18.25,14) to[short] (19.5,14);
+\node [font=\normalsize] at (20.75,12.75) {x xor c};
+\node at (15.5,13.25) [circ] {};
+\draw (16.25,12.25) to[short] (13,12.25);
+\draw (13,12.25) to[short] (13,13);
+\node at (13,13) [circ] {};
+\node at (13,13.5) [circ] {};
+\draw (13,13.5) to[short] (13,14.25);
+\draw (16.25,14.25) to[short] (13,14.25);
+\draw (13.5,13.5) to[short] (11.75,13.5);
+\draw (13.5,13) to[short] (12,13);
+\draw (15.5,15.25) to[short] (15.5,12.75);
+\draw (12,11.25) to[short, -o] (1.25,11.25) ;
+\draw (12,13) to[short] (12,11.25);
+\node [font=\normalsize] at (8.25,16) {a nand b = z};
+\draw (16.25,15.25) to[short] (15.5,15.25);
+\node [font=\normalsize] at (17,16.25) {z nand (x nand c) = z nand y};
+\node at (15.5,13.75) [circ] {};
+\draw (21.5,13.75) to[short, -o] (22.75,13.75) ;
+\draw (18.25,15.5) to[short, -o] (22.75,15.5) ;
+\node [font=\normalsize] at (23.25,15.5) {c};
+\node [font=\normalsize] at (23.25,13.75) {s};
+\end{circuitikz}
+\end{document}
