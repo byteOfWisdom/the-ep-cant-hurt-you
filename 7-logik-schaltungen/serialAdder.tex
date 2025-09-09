@@ -40,7 +40,7 @@
 \draw (0.75,12.75) to[short] (0.75,15.75);
 \draw (0.75,15.75) to[short] (2.25,15.75);
 \draw  (-6,20) rectangle (1.25,17.75);
-\node [font=\normalsize] at (-5.5,18) {$D_{in}$};
+\node [font=\normalsize] at (-4.5,18) {$D_{in}$};
 \node [font=\normalsize] at (-5.5,19.75) {CLK};
 \node [font=\normalsize] at (0.75,18) {$D_{out}$};
 \node [font=\normalsize] at (-3.75,19.75) {B0};
@@ -83,5 +83,14 @@
 \draw (0.75,20) to[short, -o] (0.75,21) ;
 \node [font=\normalsize] at (0.75,21.5) {LOAD};
 \draw (-7.5,20.75) to[short] (-5.5,20.75);
+\node [font=\normalsize] at (-5.5,18) {R};
+\node [font=\normalsize] at (10.75,14) {R};
+\draw (10.75,13.75) to[short] (10.75,11.5);
+\draw (-5.5,11.5) to[short, -o] (14,11.5) ;
+\draw (-5.5,17.75) to[short] (-5.5,11.5);
+\draw (7.5,14.25) to[short] (7.5,11.5);
+\node at (7.5,11.5) [circ] {};
+\node at (10.75,11.5) [circ] {};
+\node [font=\normalsize] at (14.5,11.5) {R};
 \end{circuitikz}
 \end{document}
