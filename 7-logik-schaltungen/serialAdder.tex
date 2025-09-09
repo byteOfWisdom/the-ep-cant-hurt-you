@@ -1,0 +1,87 @@
+\documentclass{standalone}
+\usepackage{circuitikz}
+\begin{document}
+
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw [ line width=0.6pt ] (2.25,17) rectangle (5,14.5);
+\node [font=\normalsize] at (2.75,16.5) {a};
+\node [font=\normalsize] at (2.75,15.75) {b};
+\node [font=\normalsize] at (2.75,15) {$c_{in}$};
+\node [font=\normalsize] at (4.5,15.25) {$c_{out}$};
+\node [font=\normalsize] at (4.5,16) {s};
+\draw [ line width=0.6pt ] (6.25,15.5) rectangle (7.75,14.25);
+\node [font=\normalsize] at (6.75,14.5) {CLK};
+\node [font=\normalsize] at (6.5,15.25) {D};
+\node [font=\normalsize] at (7.5,15.25) {Q};
+\node [font=\normalsize] at (7.5,14.5) {$R$};
+\draw (5,15.25) to[short] (6.25,15.25);
+\draw (7.75,15.25) to[short] (8.25,15.25);
+\draw (8.25,15.25) to[short] (8.25,13.5);
+\draw (8.25,13.5) to[short] (1.25,13.5);
+\draw (1.25,13.5) to[short] (1.25,15);
+\draw (1.25,15) to[short] (2.25,15);
+\draw [ line width=0.6pt ] (9.5,16.75) rectangle (12.5,13.75);
+\draw (5,16) to[short] (9.5,16);
+\node [font=\normalsize] at (10,16) {$D_{in}$};
+\node [font=\normalsize] at (10,15.25) {CLK};
+\node [font=\normalsize] at (10,14.5) {$D_{out}$};
+\node [font=\normalsize] at (12,16) {B0};
+\node [font=\normalsize] at (12,15.5) {B1};
+\node [font=\normalsize] at (12,14.75) {...};
+\node [font=\normalsize] at (12,14.25) {Bn};
+\draw (9.5,15.25) to[short] (8.75,15.25);
+\draw (8.75,15.25) to[short] (8.75,12.25);
+\draw (12,12.25) to[short] (-7.5,12.25);
+\node at (8.75,12.25) [circ] {};
+\draw (9.5,14.5) to[short] (9,14.5);
+\draw (9,14.5) to[short] (9,12.75);
+\draw (9,12.75) to[short] (0.75,12.75);
+\draw (0.75,12.75) to[short] (0.75,15.75);
+\draw (0.75,15.75) to[short] (2.25,15.75);
+\draw  (-6,20) rectangle (1.25,17.75);
+\node [font=\normalsize] at (-5.5,18) {$D_{in}$};
+\node [font=\normalsize] at (-5.5,19.75) {CLK};
+\node [font=\normalsize] at (0.75,18) {$D_{out}$};
+\node [font=\normalsize] at (-3.75,19.75) {B0};
+\node [font=\normalsize] at (-2.75,19.75) {B1};
+\node [font=\normalsize] at (-1.5,19.75) {...};
+\node [font=\normalsize] at (-0.5,19.75) {Bn};
+\node [font=\normalsize] at (-3.75,18) {D0};
+\node [font=\normalsize] at (-2.75,18) {D1};
+\node [font=\normalsize] at (-1.5,18) {...};
+\node [font=\normalsize] at (-0.5,18) {Dn};
+\draw (2.25,16.5) to[short] (0.75,16.5);
+\draw (0.75,17.75) to[short] (0.75,16.5);
+\draw (-3.75,17.75) to[short, -o] (-3.75,16.25) ;
+\draw (-2.75,17.75) to[short, -o] (-2.75,16.25) ;
+\draw (-1.5,17.75) to[short, -o] (-1.5,16.25) ;
+\draw (-0.5,17.75) to[short, -o] (-0.5,16.25) ;
+\node [font=\normalsize] at (-3.75,15.75) {$In_0$};
+\node [font=\normalsize] at (-2.75,15.75) {$In_1$};
+\node [font=\normalsize] at (-1.5,15.75) {...};
+\node [font=\normalsize] at (-0.5,15.75) {$In_n$};
+\draw (12.5,16) to[short, -o] (14,16) ;
+\draw (12.5,15.5) to[short, -o] (14,15.5) ;
+\draw (12.5,14.75) to[short, -o] (14,14.75) ;
+\draw (12.5,14.25) to[short, -o] (14,14.25) ;
+\node [font=\normalsize] at (14.5,16) {$S_0$};
+\node [font=\normalsize] at (14.5,15.5) {$S_1$};
+\node [font=\normalsize] at (14.5,14.75) {...};
+\node [font=\normalsize] at (14.5,14.25) {$S_n$};
+\draw (6.25,14.5) to[short] (5.75,14.5);
+\draw (5.75,14.5) to[short] (5.75,12.25);
+\node at (5.75,12.25) [circ] {};
+\draw (-5.5,20) to[short] (-5.5,20.75);
+\draw (-7.5,20.75) to[short] (-7.5,12.25);
+\node [font=\normalsize] at (-2.25,20.5) {parallel Shift Register};
+\node [font=\normalsize] at (3.5,17.25) {Adder};
+\node [font=\normalsize] at (10.75,17.25) {serielles Shift Register};
+\draw (12,12.25) to[short, -o] (14,12.25) ;
+\node [font=\normalsize] at (14.5,12.25) {CLK};
+\node [font=\normalsize] at (0.5,19.75) {LOAD};
+\draw (0.75,20) to[short, -o] (0.75,21) ;
+\node [font=\normalsize] at (0.75,21.5) {LOAD};
+\draw (-7.5,20.75) to[short] (-5.5,20.75);
+\end{circuitikz}
+\end{document}
