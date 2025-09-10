@@ -50,14 +50,14 @@ def plot_xy(xdata, ydata, y_scale):
 #    cal_factor = 10 / 255 # this is a best guess for a signed 8 bit integer value and 5 divs per side, 10 divs total
 #    x_amp = x * x_vstep * cal_factor
 #    y_amp = y * y_vstep * cal_factor * y_scale
-    default = False
+    default = True
     if default:
         plt.scatter(xdata, np.array(ydata) * y_scale, marker=".", s =0.5)
     else:
         for x_chunk, y_chunk in chop_with_adjacency(xdata, ydata):
             plt.plot(x_chunk, np.array(y_chunk) * y_scale, color="tab:blue")
-    plt.xlabel("Spannung [V]")
-    plt.ylabel("Strom [mA]")
+    plt.xlabel("CH1 [V]")
+    plt.ylabel("CH2 [V]")
     plt.grid(which="major")
     plt.grid(which="minor", linestyle=":", linewidth=0.5)
     plt.gca().minorticks_on()
@@ -74,5 +74,6 @@ if __name__ == "__main__":
         y_file = file + "/A" + num + "CH2.CSV"
         xdata += load_voltages(x_file)
         ydata += load_voltages(y_file)
-    y_scale = 1000 / 500
+    #y_scale = 1000 / 500
+    y_scale = 1.
     plot_xy(xdata, ydata, y_scale)
