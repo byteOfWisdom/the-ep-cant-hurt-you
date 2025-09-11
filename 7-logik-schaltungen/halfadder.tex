@@ -1,0 +1,46 @@
+\documentclass{standalone}
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw (4.75,12.25) to[short] (5,12.25);
+\draw (4.75,11.75) to[short] (5,11.75);
+\draw (5,12.25) node[ieeestd nand port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (6.75,12);
+\draw (7.5,13.25) to[short] (7.75,13.25);
+\draw (7.5,12.75) to[short] (7.75,12.75);
+\draw (7.75,13.25) node[ieeestd nand port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (9.5,13);
+\draw (10.25,12.25) to[short] (10.5,12.25);
+\draw (10.25,11.75) to[short] (10.5,11.75);
+\draw (10.5,12.25) node[ieeestd nand port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (12.25,12);
+\draw (7.5,12) to[short] (7.75,12);
+\draw (7.5,11.5) to[short] (7.75,11.5);
+\draw (7.75,12) node[ieeestd nand port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (9.5,11.75);
+\draw (7.5,12.75) to[short] (7.5,12);
+\node at (7.5,12) [circ] {};
+\draw (7.5,11.5) to[short] (7.5,11);
+\draw (4.75,12.25) to[short, -o] (4,12.25) ;
+\draw (4.75,11.75) to[short, -o] (4,11.75) ;
+\draw (4.75,11) to[short] (4.75,11.75);
+\draw (4.75,12.25) to[short] (4.75,13.25);
+\node at (4.75,11.75) [circ] {};
+\node at (4.75,12.25) [circ] {};
+\draw (6.75,12) to[short] (7.5,12);
+\draw (7.5,13.25) to[short] (4.75,13.25);
+\draw (7.5,11) to[short] (4.75,11);
+\draw (9.5,11.75) to[short] (10.25,11.75);
+\draw (9.5,13) to[short] (10.25,13);
+\draw (10.25,12.25) to[short] (10.25,13);
+\draw (12.25,12) to[short, -o] (13.25,12) ;
+\node [font=\normalsize] at (3.5,12.25) {a};
+\node [font=\normalsize] at (3.5,11.75) {b};
+\node [font=\normalsize] at (13.75,12) {s};
+\draw (7.5,14.5) to[short] (7.75,14.5);
+\draw (7.5,14) to[short] (7.75,14);
+\draw (7.75,14.5) node[ieeestd nand port, anchor=in 1, scale=0.89](port){} (port.out) to[short] (9.5,14.25);
+\draw (7.5,12.75) to[short] (7.5,14.5);
+\node at (7.5,12.75) [circ] {};
+\node at (7.5,14) [circ] {};
+\draw (9.5,14.25) to[short, -o] (10.75,14.25) ;
+\node [font=\normalsize] at (11.25,14.25) {c};
+\end{circuitikz}
+\end{document}
