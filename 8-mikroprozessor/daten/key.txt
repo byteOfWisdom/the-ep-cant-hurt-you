@@ -1,0 +1,4 @@
+0000 -> sägezahn
+0001 bis 0003 -> sawtooth_var
+0004 -> dreieck
+0005 -> rechteck

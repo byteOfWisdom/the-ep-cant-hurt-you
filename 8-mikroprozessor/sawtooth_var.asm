@@ -1,10 +1,11 @@
+in 01
+mov B, A
 mvi A, 0 ; writes 0 to register A
-mvi B, 4 ; writes 64 to register B. sets period
 
 F1:
  inr A ; increment register A
  call delayB
- mov E, A ; for debug purpose. out 04  outputs A to output reg 04
+ out 04 ; for debug purpose. out 04  outputs A to output reg 04
  jmp f1 ; jumps to f1
 
 delayB:
@@ -13,6 +14,7 @@ delayB:
 decLoop:
  dcr A
  jnz decLoop
-
+ in 01
+ mov B, A
  mov A, C
  ret
